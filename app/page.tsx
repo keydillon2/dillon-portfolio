@@ -1,69 +1,71 @@
-import Image from "next/image";
+import { client } from '@/sanity/lib/client'
 
-export default function Home() {
+// Revalidate at most once a minute so Sanity edits surface without a redeploy.
+export const revalidate = 60
+
+interface CaseStudy {
+  _id: string
+  title: string
+  client?: string
+  industry?: string
+  businessProblem?: string
+  strategicInsight?: string
+}
+
+const CASE_STUDIES_QUERY = `*[_type == "caseStudy"] | order(publishedAt desc) {
+  _id,
+  title,
+  client,
+  industry,
+  businessProblem,
+  strategicInsight
+}`
+
+export default async function Home() {
+  const caseStudies = await client.fetch<CaseStudy[]>(CASE_STUDIES_QUERY)
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+    <main className="mx-auto max-w-3xl px-6 py-16 font-sans">
+      <header className="mb-12">
+        <p className="text-sm uppercase tracking-widest text-zinc-500">Dillon — Strategy Portfolio</p>
+        <h1 className="mt-2 text-4xl font-semibold">Selected Work</h1>
+        <p className="mt-3 text-zinc-600">
+          Case studies served live from structured content. Edit in the CMS, see it here.
+        </p>
+      </header>
+
+      {caseStudies.length === 0 ? (
+        <p className="text-zinc-500">
+          No case studies published yet. Add one in <a className="underline" href="/studio">the Studio</a>.
+        </p>
+      ) : (
+        <ul className="space-y-10">
+          {caseStudies.map((cs) => (
+            <li key={cs._id} className="border-t border-zinc-200 pt-8">
+              <p className="text-sm uppercase tracking-widest text-zinc-500">
+                {[cs.client, cs.industry].filter(Boolean).join(' — ')}
+              </p>
+              <h2 className="mt-1 text-2xl font-semibold">{cs.title}</h2>
+              {cs.businessProblem && (
+                <div className="mt-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">
+                    Business problem
+                  </h3>
+                  <p className="mt-1 text-zinc-700">{cs.businessProblem}</p>
+                </div>
+              )}
+              {cs.strategicInsight && (
+                <div className="mt-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-500">
+                    Strategic insight
+                  </h3>
+                  <p className="mt-1 text-zinc-700">{cs.strategicInsight}</p>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      )}
+    </main>
+  )
 }
