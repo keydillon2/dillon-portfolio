@@ -23,13 +23,6 @@ export const caseStudy = defineType({
     defineField({ name: 'framework', title: 'Framework', type: 'text', rows: 4 }),
     defineField({ name: 'decisionProcess', title: 'Decision Process', type: 'text', rows: 4 }),
     defineField({ name: 'execution', title: 'Execution', type: 'text', rows: 4 }),
-    defineField({ name: 'commercialOutcome', title: 'Commercial Outcome', type: 'text', rows: 4 }),
-    defineField({
-      name: 'reflection',
-      title: 'Reflection — What I Would Do Differently Today',
-      type: 'text',
-      rows: 4,
-    }),
     defineField({ name: 'publishedAt', title: 'Published At', type: 'datetime' }),
   ],
   preview: {
