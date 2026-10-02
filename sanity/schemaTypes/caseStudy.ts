@@ -2,7 +2,8 @@ import { defineField, defineType } from 'sanity'
 
 // Case Study — the first content type for the platform.
 // Each field maps to an element of strategic judgment from the project vision:
-// problem, insight, framework, decision process, execution, outcome, reflection.
+// problem, insight, framework, decision process, execution.
+// (Outcome and reflection are intentionally left out — they come up live in conversation.)
 export const caseStudy = defineType({
   name: 'caseStudy',
   title: 'Case Study',
