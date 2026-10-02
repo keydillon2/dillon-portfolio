@@ -24,6 +24,28 @@ export const caseStudy = defineType({
     defineField({ name: 'framework', title: 'Framework', type: 'text', rows: 4 }),
     defineField({ name: 'decisionProcess', title: 'Decision Process', type: 'text', rows: 4 }),
     defineField({ name: 'execution', title: 'Execution', type: 'text', rows: 4 }),
+    defineField({
+      name: 'coverImage',
+      title: 'Cover Image',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
+    }),
+    defineField({
+      name: 'gallery',
+      title: 'Gallery',
+      type: 'array',
+      of: [
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: 'alt', title: 'Alt text', type: 'string' }),
+            defineField({ name: 'caption', title: 'Caption', type: 'string' }),
+          ],
+        },
+      ],
+    }),
     defineField({ name: 'publishedAt', title: 'Published At', type: 'datetime' }),
   ],
   preview: {
