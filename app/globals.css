@@ -1,30 +1,84 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens.
+ * Every color used in the UI is defined here once, for light and dark.
+ * Components use the semantic names (bg-paper, text-ink, text-muted,
+ * border-rule, text-accent) — never raw zinc/white — so dark mode is
+ * handled in one place instead of per component.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --paper: #fbfbf9;      /* page background, cool off-white */
+  --ink: #1a1d24;        /* primary text, blue-black */
+  --muted: #5b606b;      /* secondary text, ~6:1 on paper */
+  --rule: #e2e3df;       /* dividers and borders */
+  --wash: #f0f1ee;       /* hover and subtle fills */
+  --accent: #2b3fd6;     /* cobalt: active state, insight marker, links */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --paper: #14161b;
+    --ink: #e8e9ec;
+    --muted: #9ba0aa;
+    --rule: #2a2d34;
+    --wash: #1d2027;
+    --accent: #8f9dff;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-wash: var(--wash);
+  --color-accent: var(--accent);
+
+  --font-sans: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif 4 Variable", ui-serif, Georgia, serif;
+
+  /*
+   * Type scale — a 1.25 (major third) ratio from a 17px body.
+   * Named by role, not size, so components say what text is for.
+   */
+  --text-meta: 0.875rem;           /* 14px  client, industry, stage labels */
+  --text-meta--line-height: 1.4;
+  --text-body: 1.0625rem;          /* 17px  running text */
+  --text-body--line-height: 1.6;
+  --text-insight: 1.375rem;        /* 22px  the insight, set in serif */
+  --text-insight--line-height: 1.5;
+  --text-case: 2rem;               /* 32px  case study titles */
+  --text-case--line-height: 1.1;
+  --text-name: 3.5rem;             /* 56px  the name in the header */
+  --text-name--line-height: 1;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  font-feature-settings: "kern", "liga";
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
 }

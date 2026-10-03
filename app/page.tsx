@@ -1,18 +1,13 @@
+import Link from 'next/link'
 import { client } from '@/sanity/lib/client'
 import CaseStudyNav, { type NavItem } from './components/CaseStudyNav'
+import CaseStudy, { type CaseStudyData } from './components/CaseStudy'
 
 // Revalidate at most once a minute so Sanity edits surface without a redeploy.
 export const revalidate = 60
 
-interface CaseStudy {
-  _id: string
-  title: string
-  client?: string
-  industry?: string
-  businessProblem?: string
-  strategicInsight?: string
-  slug?: { current: string }
-}
+// Image fields pull asset dimensions so next/image can reserve space (no layout shift).
+const IMAGE_FIELDS = `alt, caption, asset->{ _id, metadata { dimensions { width, height } } }`
 
 const CASE_STUDIES_QUERY = `*[_type == "caseStudy"] | order(publishedAt desc) {
   _id,
@@ -21,24 +16,30 @@ const CASE_STUDIES_QUERY = `*[_type == "caseStudy"] | order(publishedAt desc) {
   industry,
   businessProblem,
   strategicInsight,
+  framework,
+  decisionProcess,
+  execution,
+  coverImage { ${IMAGE_FIELDS} },
+  gallery[] { _key, ${IMAGE_FIELDS} },
   slug
 }`
 
 export default async function Home() {
-  const caseStudies = await client.fetch<CaseStudy[]>(CASE_STUDIES_QUERY)
+  const caseStudies = await client.fetch<CaseStudyData[]>(CASE_STUDIES_QUERY)
 
-  const navItems: NavItem[] = caseStudies.map((cs, i) => ({
+  const navItems: NavItem[] = caseStudies.map((cs) => ({
     id: `work-${cs.slug?.current ?? cs._id}`,
-    index: String(i + 1).padStart(2, '0'),
     title: cs.title,
     client: cs.client,
   }))
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-16 font-sans">
-      <header className="mb-12 max-w-3xl">
-        <h1 className="text-4xl font-semibold">Dillon Key</h1>
-        <div className="mt-4 max-w-2xl space-y-4 text-lg leading-relaxed text-zinc-800">
+    <main className="mx-auto w-full max-w-6xl px-6 pt-20 pb-32">
+      <header className="mb-20 max-w-3xl">
+        <h1 className="text-[2.5rem] leading-none sm:text-name font-semibold tracking-[-0.03em]">
+          Dillon Key
+        </h1>
+        <div className="mt-8 max-w-[62ch] space-y-4">
           <p>
             I&rsquo;m a Senior Strategist at Prosek Partners in New York. I work
             with brands that have complex products and multiple stakeholders.
@@ -56,50 +57,29 @@ export default async function Home() {
         </div>
       </header>
 
-      <div className="lg:flex lg:items-start lg:gap-12">
+      <div className="lg:flex lg:items-start lg:gap-16">
         <CaseStudyNav items={navItems} />
 
-        <section aria-label="Selected work" className="min-w-0 flex-1 max-w-3xl">
-          <h2 className="text-sm font-semibold uppercase tracking-widest text-zinc-600">
-            Selected Work
+        <section aria-labelledby="work-heading" className="min-w-0 flex-1 max-w-3xl">
+          <h2 id="work-heading" className="sr-only">
+            Selected work
           </h2>
 
-        {caseStudies.length === 0 ? (
-          <p className="text-zinc-600">
-            No case studies published yet. Add one in <a className="underline" href="/studio">the Studio</a>.
-          </p>
-        ) : (
-          <ul className="mt-6 space-y-10">
-            {caseStudies.map((cs, i) => (
-              <li
-                key={cs._id}
-                id={navItems[i].id}
-                className="border-t border-zinc-200 pt-8 scroll-mt-24"
-              >
-                <p className="text-sm uppercase tracking-widest text-zinc-600">
-                  {[cs.client, cs.industry].filter(Boolean).join(' — ')}
-                </p>
-                <h2 className="mt-1 text-2xl font-semibold">{cs.title}</h2>
-                {cs.businessProblem && (
-                  <div className="mt-4">
-                    <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-600">
-                      Business problem
-                    </h3>
-                    <p className="mt-1 text-zinc-800">{cs.businessProblem}</p>
-                  </div>
-                )}
-                {cs.strategicInsight && (
-                  <div className="mt-4">
-                    <h3 className="text-sm font-semibold uppercase tracking-widest text-zinc-600">
-                      Strategic insight
-                    </h3>
-                    <p className="mt-1 text-zinc-800">{cs.strategicInsight}</p>
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
+          {caseStudies.length === 0 ? (
+            <p className="text-muted">
+              No case studies published yet. Add one in{' '}
+              <Link className="text-accent underline underline-offset-4" href="/studio">
+                the Studio
+              </Link>
+              .
+            </p>
+          ) : (
+            <div className="space-y-20">
+              {caseStudies.map((cs, i) => (
+                <CaseStudy key={cs._id} cs={cs} id={navItems[i].id} first={i === 0} />
+              ))}
+            </div>
+          )}
         </section>
       </div>
     </main>

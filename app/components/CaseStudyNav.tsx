@@ -4,16 +4,14 @@ import { useEffect, useState } from 'react'
 
 export interface NavItem {
   id: string
-  index: string
   title: string
   client?: string
 }
 
 /**
- * Sticky left-hand index of case studies with typographic thumbnails.
- * No cover imagery exists yet, so each thumbnail is the entry's index
- * number set large — honest placeholder until real covers land.
- * Scroll-spy highlights whichever case study is in view.
+ * Sticky left-hand index of case studies with scroll-spy.
+ * The case studies aren't a sequence, so entries aren't numbered;
+ * the active one is marked with an accent rule instead.
  * On mobile this collapses to a horizontal chip bar (sticky top).
  */
 export default function CaseStudyNav({ items }: { items: NavItem[] }) {
@@ -42,37 +40,34 @@ export default function CaseStudyNav({ items }: { items: NavItem[] }) {
       {/* Mobile: horizontal chip bar */}
       <nav
         aria-label="Case studies"
-        className="lg:hidden sticky top-0 z-10 -mx-6 px-6 py-3 bg-white/95 backdrop-blur border-b border-zinc-200 overflow-x-auto"
+        className="lg:hidden sticky top-0 z-10 -mx-6 mb-10 px-6 py-3 bg-paper/95 backdrop-blur border-b border-rule overflow-x-auto"
       >
         <ul className="flex gap-2 whitespace-nowrap">
-          {items.map((item) => (
-            <li key={item.id}>
-              <a
-                href={`#${item.id}`}
-                aria-current={activeId === item.id ? 'true' : undefined}
-                className={`inline-block rounded-full border px-4 py-1.5 text-sm transition-colors ${
-                  activeId === item.id
-                    ? 'bg-zinc-900 text-white border-zinc-900 font-medium'
-                    : 'border-zinc-300 text-zinc-700 hover:border-zinc-500'
-                }`}
-              >
-                {item.title}
-              </a>
-            </li>
-          ))}
+          {items.map((item) => {
+            const active = activeId === item.id
+            return (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  aria-current={active ? 'true' : undefined}
+                  className={`inline-block rounded-full border px-4 py-1.5 text-meta transition-colors ${
+                    active
+                      ? 'bg-ink text-paper border-ink font-medium'
+                      : 'border-rule text-muted hover:border-muted hover:text-ink'
+                  }`}
+                >
+                  {item.title}
+                </a>
+              </li>
+            )
+          })}
         </ul>
       </nav>
 
-      {/* Desktop: left-hand thumbnail index */}
-      <aside className="hidden lg:block w-56 shrink-0">
-        <nav
-          aria-label="Case studies"
-          className="sticky top-8"
-        >
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600">
-            Index
-          </p>
-          <ul className="mt-4 space-y-1">
+      {/* Desktop: left-hand index */}
+      <aside className="hidden lg:block w-52 shrink-0">
+        <nav aria-label="Case studies" className="sticky top-10">
+          <ul className="space-y-1 border-l border-rule">
             {items.map((item) => {
               const active = activeId === item.id
               return (
@@ -80,32 +75,16 @@ export default function CaseStudyNav({ items }: { items: NavItem[] }) {
                   <a
                     href={`#${item.id}`}
                     aria-current={active ? 'true' : undefined}
-                    className="group flex items-center gap-3 rounded-lg p-2 -m-2 transition-colors hover:bg-zinc-100"
+                    className={`-ml-px block border-l-2 py-2 pl-4 transition-colors ${
+                      active ? 'border-accent' : 'border-transparent hover:border-muted'
+                    }`}
                   >
-                    <span
-                      aria-hidden="true"
-                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-md border text-lg font-bold transition-colors ${
-                        active
-                          ? 'bg-zinc-900 text-white border-zinc-900'
-                          : 'border-zinc-300 text-zinc-500 group-hover:border-zinc-500 group-hover:text-zinc-700'
-                      }`}
-                    >
-                      {item.index}
+                    <span className={`block text-meta ${active ? 'font-semibold text-ink' : 'text-ink/80'}`}>
+                      {item.title}
                     </span>
-                    <span className="min-w-0">
-                      <span
-                        className={`block truncate text-sm ${
-                          active ? 'font-semibold text-zinc-900' : 'text-zinc-700'
-                        }`}
-                      >
-                        {item.title}
-                      </span>
-                      {item.client && (
-                        <span className="block truncate text-xs text-zinc-600">
-                          {item.client}
-                        </span>
-                      )}
-                    </span>
+                    {item.client && (
+                      <span className="block text-[0.8125rem] leading-snug text-muted">{item.client}</span>
+                    )}
                   </a>
                 </li>
               )
