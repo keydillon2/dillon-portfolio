@@ -8,9 +8,13 @@ export const site = {
   email: 'dillon.key@gmail.com',
 }
 
-/** Absolute site URL. Set NEXT_PUBLIC_SITE_URL once a custom domain is live. */
+// The canonical address. dillonkey.com redirects here (set in Vercel).
+const PRODUCTION_URL = 'https://www.dillonkey.com'
+
+/** Absolute site URL: the real domain in production, the preview URL on previews. */
 export function siteUrl() {
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, '')
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  if (process.env.VERCEL_ENV === 'production') return PRODUCTION_URL
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
   return 'http://localhost:3000'
 }
