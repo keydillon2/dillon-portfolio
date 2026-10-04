@@ -36,3 +36,14 @@ live site within a minute, whatever branch the code is on. So:
 - `npx tsc --noEmit`, `npx eslint app lib sanity`, and `next build` pass.
 - Check the page in light, dark, and at 390px wide.
 - Pages must still render if new optional Sanity fields are empty.
+
+## Where things live (identify by ID, not name)
+
+- **Code:** this repo, `keydillon2/dillon-portfolio`. The similarly named
+  `dillon-key-portfolio` and `Dillon-Key` repos are unrelated.
+- **Hosting:** Vercel project `dillon-portfolio` (not `dillon-key`).
+- **Content:** Sanity project "Dillon Portfolio", ID `7sgn2ssa`, owned by
+  the GitHub-based Sanity login (keydillon2). Never delete it or that
+  account. The Google login's "Dillon's Portfolio" projects (`5k98eyyu`,
+  `0wmbny9z`) are empty duplicates.
+- **Domain:** dillonkey.com at WordPress.com, pointed at Vercel.
