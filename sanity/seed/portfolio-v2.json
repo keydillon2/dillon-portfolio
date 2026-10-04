@@ -1,11 +1,11 @@
 {
-  "_note": "Drafted fields for the v2 case study layout. Facts come from the existing case study text and the resume. Hooks, briefs and reframes are drafts to edit. Load with: npx sanity exec sanity/seed/load-portfolio-v2.ts --with-user-token",
+  "_note": "Drafted fields for the v2 case study layout. Facts come from the existing case study text and the resume. Headlines are locked;  briefs and reframes are drafts to edit. Load with: npx sanity exec sanity/seed/load-portfolio-v2.ts --with-user-token",
   "patches": [
     {
       "id": "6PahXDAqdeBo5CX2IMlkwA",
       "slug": "fetch-love-longer",
       "set": {
-        "hook": "Pet insurance sells coverage. Fetch sells more years together.",
+        "headline": "Turning monthly savings into more happier and healthier years together",
         "brief": "Help a premium, best-in-class insurer stand apart in a category where every brand competes on coverage statistics.",
         "reframe": "The product isn't protection against what might go wrong. It's an investment in more time with someone you treat as family.",
         "role": "Senior Strategist, Prosek Partners",
@@ -44,7 +44,7 @@
       "id": "6PahXDAqdeBo5CX2IMlxlA",
       "slug": "hmh-dont-mind-your-own-business",
       "set": {
-        "hook": "People didn't need to learn the signs. They'd been trained not to look.",
+        "headline": "Giving New Yorkers permission to not mind their own business",
         "brief": "Use the World Cup's scale to raise awareness of human trafficking and help people recognize and respond to the signs.",
         "reframe": "The barrier comes before awareness. In New York and New Jersey, minding your own business is a social norm, so the work had to interrupt the instinct to look away.",
         "role": "Senior Strategist, Prosek Partners",
@@ -84,7 +84,7 @@
       "id": "op79fflKKnOcSGwgxmugDc",
       "slug": "amex-b2b-payments-messaging",
       "set": {
-        "hook": "Every competitor claimed the short term. That left the long term open.",
+        "headline": "Transforming back-office payments into a CFO's growth lever",
         "brief": "Sell two B2B payment products in a category where everyone promises faster cash flow and lower costs.",
         "reframe": "CFOs use working capital to fund growth. The products already delivered that, so the messaging had to move from what they do to what they make possible.",
         "role": "Strategist, Dentsu Creative",
@@ -129,7 +129,7 @@
       "id": "op79fflKKnOcSGwgxne7n3",
       "slug": "diageo-stages-not-ages",
       "set": {
-        "hook": "Not a generation to decode. People at different stages of life.",
+        "headline": "Showing how Gen-Z insight helps inform product marketing decisions",
         "brief": "Build foundational insight into 21- to 29-year-old drinkers and turn it into a plan for winning with them.",
         "reframe": "A 21-year-old moving out and a 29-year-old new parent share a birth window, not a mindset. Strategy built on the generational label would miss them.",
         "role": "Associate Strategist, The Mix Global & AKQA",
@@ -169,7 +169,7 @@
       "id": "Uf53TPBQM5Yqmdb4HuieQ3",
       "slug": "apollo-audience-segmentation",
       "set": {
-        "hook": "Ten audiences were hearing one story. The fix was structural, not stylistic.",
+        "headline": "Turning one Apollo story into ten conversations that start with the client",
         "brief": "Make Apollo's communication land with pensions, sovereign wealth funds, wirehouses, RIAs and more, when every material led with credentials.",
         "reframe": "Each audience is making a different decision. Keep one positioning, and adapt the emphasis to each audience's pressure and the assumption worth challenging.",
         "role": "Senior Strategist, Prosek Partners",

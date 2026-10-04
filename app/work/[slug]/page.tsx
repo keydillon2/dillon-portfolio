@@ -24,7 +24,7 @@ export async function generateMetadata(props: PageProps<'/work/[slug]'>): Promis
   const found = await getCaseStudy(slug)
   if (!found) return {}
   const { cs } = found
-  const description = cs.hook ?? cs.reframe ?? cs.businessProblem?.slice(0, 160)
+  const description = cs.headline ?? cs.reframe ?? cs.businessProblem?.slice(0, 160)
   return {
     title: `${cs.title}, ${cs.client} — ${site.name}`,
     description,
@@ -68,10 +68,10 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
 
       <header className="mt-16 max-w-4xl sm:mt-24">
         <p className="text-meta text-muted">{meta}</p>
-        {cs.hook ? (
+        {cs.headline ? (
           <>
             <h1 className="mt-2 text-meta font-medium text-ink">{cs.title}</h1>
-            <p className={`mt-6 ${DISPLAY}`}>{cs.hook}</p>
+            <p className={`mt-6 ${DISPLAY}`}>{cs.headline}</p>
           </>
         ) : (
           <h1 className={`mt-4 ${DISPLAY}`}>{cs.title}</h1>
@@ -139,7 +139,7 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
           <Link href={`/work/${next.slug}`} className="group block">
             <span className="text-meta text-muted">Next: {next.client}</span>
             <span className="mt-2 block max-w-3xl text-[1.5rem] leading-[1.2] font-semibold tracking-[-0.02em] text-balance transition-colors group-hover:text-accent sm:text-[1.875rem]">
-              {next.hook ?? next.title}
+              {next.headline ?? next.title}
             </span>
           </Link>
         </nav>

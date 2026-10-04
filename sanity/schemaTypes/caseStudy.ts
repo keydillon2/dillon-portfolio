@@ -2,8 +2,8 @@ import { defineArrayMember, defineField, defineType } from 'sanity'
 
 // Case Study.
 // Fields are grouped by the job they do for a reviewer:
-//  - "Summary" is what someone skimming for 30 seconds sees: the hook, the
-//    brief versus the reframe, the role, and the figures.
+//  - "Summary" is what someone skimming for 30 seconds sees: the headline,
+//    the brief versus the reframe, the role, and the figures.
 //  - "Reasoning" is the full chain for someone reading closely.
 //  - "Visuals" holds the framework diagram and any images.
 export const caseStudy = defineType({
@@ -16,7 +16,14 @@ export const caseStudy = defineType({
     { name: 'visuals', title: 'Visuals' },
   ],
   fields: [
-    defineField({ name: 'title', title: 'Title', type: 'string', group: 'summary', validation: (r) => r.required() }),
+    defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      group: 'summary',
+      description: 'Short name for the case, e.g. the campaign name. Shown as a small label.',
+      validation: (r) => r.required(),
+    }),
     defineField({
       name: 'slug',
       title: 'Slug',
@@ -28,12 +35,12 @@ export const caseStudy = defineType({
     defineField({ name: 'client', title: 'Client / Company', type: 'string', group: 'summary' }),
     defineField({ name: 'industry', title: 'Industry', type: 'string', group: 'summary' }),
     defineField({
-      name: 'hook',
-      title: 'Hook',
+      name: 'headline',
+      title: 'Headline',
       type: 'string',
       group: 'summary',
-      description: 'One line that makes a reviewer want to read on. Shown large on the index and the case page.',
-      validation: (r) => r.max(120).warning('Keep the hook under 120 characters.'),
+      description: 'The change the work made, stated as its conclusion. Shown large on the home page and the case page. The Title above becomes the small label.',
+      validation: (r) => r.max(120).warning('Keep the headline under 120 characters.'),
     }),
     defineField({
       name: 'brief',

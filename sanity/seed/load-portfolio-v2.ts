@@ -1,5 +1,5 @@
 /**
- * Loads the drafted v2 fields (hook, brief, reframe, role, figures, diagram)
+ * Loads the drafted v2 fields (headline, brief, reframe, role, figures, diagram)
  * into the existing case study documents. Existing text is not touched.
  *
  * Run once, signed in to Sanity:

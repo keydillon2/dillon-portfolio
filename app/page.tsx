@@ -15,14 +15,10 @@ export default async function Home() {
       <HashRedirect slugs={caseStudies.map((cs) => cs.slug)} />
 
       <header className="max-w-3xl">
-        <h1 className="text-[1rem] font-semibold">
+        <h1 className="text-[2.5rem] leading-none font-semibold tracking-[-0.03em] sm:text-name">
           {site.name}
-          <span className="font-normal text-muted">, {site.role}</span>
         </h1>
-        <p className="mt-6 text-[2rem] leading-[1.12] font-semibold tracking-[-0.025em] sm:text-[3rem] text-balance">
-          {site.lede}
-        </p>
-        <div className="mt-8 max-w-[62ch] space-y-4 text-muted">
+        <div className="mt-8 max-w-[62ch] space-y-4 text-[1.125rem] leading-[1.6]">
           <p>
             I&rsquo;m a Senior Strategist at Prosek Partners in New York. I work
             with brands that have complex products and multiple stakeholders.
@@ -31,11 +27,12 @@ export default async function Home() {
             audience insight, shape strategic decisions, and create commercial
             value.
           </p>
-          <p>
+          <p className="text-muted">
             I started in client services and came to strategy through VCU
             Brandcenter. Since then I&rsquo;ve worked across small, medium, and
             global agencies with brands like Diageo, American Express, and
-            Apollo, mostly across finance, enterprise tech, and healthcare.
+            Apollo Global Management, mostly across finance, enterprise tech,
+            and healthcare.
           </p>
         </div>
       </header>
@@ -63,11 +60,11 @@ export default async function Home() {
                 >
                   <div className="text-meta">
                     <p className="font-medium text-ink">{cs.client}</p>
-                    {cs.hook && <p className="text-muted">{cs.title}</p>}
+                    {cs.headline && <p className="text-muted">{cs.title}</p>}
                   </div>
                   <div className="min-w-0">
                     <p className="text-[1.5rem] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[1.875rem] text-balance transition-colors group-hover:text-accent">
-                      {cs.hook ?? cs.title}
+                      {cs.headline ?? cs.title}
                     </p>
                     {cs.reframe && (
                       <p className="mt-3 max-w-[60ch] text-muted text-pretty">{cs.reframe}</p>

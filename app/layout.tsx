@@ -8,7 +8,7 @@ import { site, siteUrl } from "@/lib/site";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
   title: `${site.name} — Strategy Portfolio`,
-  description: `${site.lede} Case studies: Fetch, Hackensack Meridian Health, American Express, Diageo, Apollo.`,
+  description: `${site.summary} Case studies: Fetch, Hackensack Meridian Health, American Express, Diageo, Apollo Global Management.`,
   openGraph: { siteName: site.name, type: "website" },
   twitter: { card: "summary_large_image" },
 };

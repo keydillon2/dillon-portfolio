@@ -17,6 +17,6 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const cs = found?.cs
   return renderOg({
     eyebrow: cs ? [cs.client, cs.title].filter(Boolean).join(', ') : 'Case study',
-    headline: cs?.hook ?? cs?.title ?? 'Case study',
+    headline: cs?.headline ?? cs?.title ?? 'Case study',
   })
 }

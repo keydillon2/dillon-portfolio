@@ -3,8 +3,9 @@
 export const site = {
   name: 'Dillon Key',
   role: 'Senior Strategist',
-  // From the resume; used as the home page lede and the default description.
-  lede: 'I partner with CEOs and CMOs to uncover new ways to create value and compete.',
+  // From the LinkedIn intro; used as the default description and share text.
+  summary:
+    "I'm a Senior Strategist at Prosek Partners in New York. I work with brands that have complex products and multiple stakeholders.",
   email: 'dillon.key@gmail.com',
 }
 
