@@ -1,45 +1,24 @@
 import Link from 'next/link'
-import { client } from '@/sanity/lib/client'
-import CaseStudyNav, { type NavItem } from './components/CaseStudyNav'
-import CaseStudy, { type CaseStudyData } from './components/CaseStudy'
+import { getCaseStudies } from '@/sanity/lib/caseStudies'
+import { site } from '@/lib/site'
+import Figures from './components/Figures'
+import HashRedirect from './components/HashRedirect'
 
 // Revalidate at most once a minute so Sanity edits surface without a redeploy.
 export const revalidate = 60
 
-// Image fields pull asset dimensions so next/image can reserve space (no layout shift).
-const IMAGE_FIELDS = `alt, caption, asset->{ _id, metadata { dimensions { width, height } } }`
-
-const CASE_STUDIES_QUERY = `*[_type == "caseStudy"] | order(publishedAt desc) {
-  _id,
-  title,
-  client,
-  industry,
-  businessProblem,
-  strategicInsight,
-  framework,
-  decisionProcess,
-  execution,
-  coverImage { ${IMAGE_FIELDS} },
-  gallery[] { _key, ${IMAGE_FIELDS} },
-  slug
-}`
-
 export default async function Home() {
-  const caseStudies = await client.fetch<CaseStudyData[]>(CASE_STUDIES_QUERY)
-
-  const navItems: NavItem[] = caseStudies.map((cs) => ({
-    id: `work-${cs.slug?.current ?? cs._id}`,
-    title: cs.title,
-    client: cs.client,
-  }))
+  const caseStudies = await getCaseStudies()
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 pt-20 pb-32">
-      <header className="mb-20 max-w-3xl">
-        <h1 className="text-[2.5rem] leading-none sm:text-name font-semibold tracking-[-0.03em]">
-          Dillon Key
+    <main className="mx-auto w-full max-w-5xl px-6 pt-20 pb-24 sm:pt-28">
+      <HashRedirect slugs={caseStudies.map((cs) => cs.slug)} />
+
+      <header className="max-w-3xl">
+        <h1 className="text-[2.5rem] leading-none font-semibold tracking-[-0.03em] sm:text-name">
+          {site.name}
         </h1>
-        <div className="mt-8 max-w-[62ch] space-y-4">
+        <div className="mt-8 max-w-[62ch] space-y-4 text-[1.125rem] leading-[1.6]">
           <p>
             I&rsquo;m a Senior Strategist at Prosek Partners in New York. I work
             with brands that have complex products and multiple stakeholders.
@@ -48,40 +27,60 @@ export default async function Home() {
             audience insight, shape strategic decisions, and create commercial
             value.
           </p>
-          <p>
+          <p className="text-muted">
             I started in client services and came to strategy through VCU
             Brandcenter. Since then I&rsquo;ve worked across small, medium, and
             global agencies with brands like Diageo, American Express, and
-            Apollo, mostly across finance, enterprise tech, and healthcare.
+            Apollo Global Management, mostly across finance, enterprise tech,
+            and healthcare.
           </p>
         </div>
       </header>
 
-      <div className="lg:flex lg:items-start lg:gap-16">
-        <CaseStudyNav items={navItems} />
+      <section id="work" aria-labelledby="work-heading" className="mt-24 scroll-mt-10">
+        <h2 id="work-heading" className="text-meta font-medium text-muted">
+          Selected work
+        </h2>
 
-        <section aria-labelledby="work-heading" className="min-w-0 flex-1 max-w-3xl">
-          <h2 id="work-heading" className="sr-only">
-            Selected work
-          </h2>
-
-          {caseStudies.length === 0 ? (
-            <p className="text-muted">
-              No case studies published yet. Add one in{' '}
-              <Link className="text-accent underline underline-offset-4" href="/studio">
-                the Studio
-              </Link>
-              .
-            </p>
-          ) : (
-            <div className="space-y-20">
-              {caseStudies.map((cs, i) => (
-                <CaseStudy key={cs._id} cs={cs} id={navItems[i].id} first={i === 0} />
-              ))}
-            </div>
-          )}
-        </section>
-      </div>
+        {caseStudies.length === 0 ? (
+          <p className="mt-6 text-muted">
+            No case studies published yet. Add one in{' '}
+            <Link className="text-accent underline underline-offset-4" href="/studio">
+              the Studio
+            </Link>
+            .
+          </p>
+        ) : (
+          <ol className="mt-4 border-t border-rule">
+            {caseStudies.map((cs) => (
+              <li key={cs._id} className="border-b border-rule">
+                <Link
+                  href={`/work/${cs.slug}`}
+                  className="case-row group grid gap-4 py-10 md:grid-cols-[13rem_1fr] md:gap-10"
+                >
+                  <div className="text-meta">
+                    <p className="font-medium text-ink">{cs.client}</p>
+                    {cs.headline && <p className="text-muted">{cs.title}</p>}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[1.5rem] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[1.875rem] text-balance transition-colors group-hover:text-accent">
+                      {cs.headline ?? cs.title}
+                    </p>
+                    {cs.reframe && (
+                      <p className="mt-3 max-w-[60ch] text-muted text-pretty">{cs.reframe}</p>
+                    )}
+                    {cs.figures?.length ? (
+                      <div className="mt-6">
+                        <Figures figures={cs.figures.slice(0, 3)} compact />
+                      </div>
+                    ) : null}
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        )}
+      </section>
     </main>
   )
 }
