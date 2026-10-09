@@ -7,6 +7,7 @@ export const site = {
   summary:
     "I'm a Senior Strategist at Prosek Partners in New York. I work with brands that have complex products and multiple stakeholders.",
   email: 'dillon.key@gmail.com',
+  linkedin: 'https://www.linkedin.com/in/dillon-key/',
 }
 
 // The canonical address. dillonkey.com redirects here (set in Vercel).

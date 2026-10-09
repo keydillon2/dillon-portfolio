@@ -23,9 +23,23 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <p>
               {site.name}, {site.role}, New York
             </p>
-            <a className="text-ink underline decoration-rule underline-offset-4 hover:decoration-accent" href={`mailto:${site.email}`}>
-              {site.email}
-            </a>
+            <ul className="flex flex-wrap gap-x-6 gap-y-2">
+              <li>
+                <a className="text-ink underline decoration-rule underline-offset-4 hover:decoration-accent" href={`mailto:${site.email}`}>
+                  {site.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  className="text-ink underline decoration-rule underline-offset-4 hover:decoration-accent"
+                  href={site.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  LinkedIn<span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              </li>
+            </ul>
           </div>
         </footer>
       </body>
