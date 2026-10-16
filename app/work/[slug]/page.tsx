@@ -38,7 +38,7 @@ function Picture({ image, sizes, priority }: { image: SanityImage; sizes: string
   if (!image.asset || !dims) return null
   return (
     <Image
-      src={urlFor(image).width(1800).auto('format').url()}
+      src={urlFor(image).width(Math.min(2400, dims.width)).auto('format').url()}
       width={dims.width}
       height={dims.height}
       alt={image.alt ?? ''}
@@ -124,13 +124,29 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
       </section>
 
       {cs.gallery && cs.gallery.length > 0 && (
-        <div className="mt-16 grid gap-6 sm:grid-cols-2">
-          {cs.gallery.map((img) => (
-            <figure key={img._key}>
-              <Picture image={img} sizes="(min-width: 640px) 32rem, 100vw" />
-              {img.caption && <figcaption className="mt-2 text-meta text-muted">{img.caption}</figcaption>}
-            </figure>
-          ))}
+        // Landscape images run the full width so their detail is legible;
+        // portrait images pair up side by side.
+        <div className="mt-20 grid gap-x-6 gap-y-12 sm:grid-cols-2">
+          {cs.gallery.map((img) => {
+            const dims = img.asset?.metadata?.dimensions
+            const wide = !dims || dims.width >= dims.height
+            return (
+              <figure key={img._key} className={wide ? 'sm:col-span-2' : undefined}>
+                {img.asset ? (
+                  <a
+                    href={urlFor(img).auto('format').url()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block cursor-zoom-in"
+                  >
+                    <Picture image={img} sizes={wide ? '(min-width: 1024px) 64rem, 100vw' : '(min-width: 640px) 32rem, 100vw'} />
+                    <span className="sr-only"> (open full size in a new tab)</span>
+                  </a>
+                ) : null}
+                {img.caption && <figcaption className="mt-3 text-meta text-muted">{img.caption}</figcaption>}
+              </figure>
+            )
+          })}
         </div>
       )}
 
