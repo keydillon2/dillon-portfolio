@@ -1,0 +1,114 @@
+{
+  "_note": "Copy pass, Oct 2026 (tone-of-voice review). Shown on preview deployments only until applied to Sanity.",
+  "patches": [
+    {
+      "id": "6PahXDAqdeBo5CX2IMlkwA",
+      "slug": "fetch-love-longer",
+      "set": {
+        "brief": "Fetch is a premium pet insurer in a category where every brand sells on coverage statistics, so price ends up deciding. The job was to give people another reason to choose it.",
+        "reframe": "Fetch’s customers think of their pets as family, and what they want most is more years together. Fetch’s coverage was already built to give them that.",
+        "contribution": "I repositioned Fetch from a purchase people put up with to an investment in their pet’s long life. From there we built the Love Longer platform and its messaging system.",
+        "figures": [
+          {
+            "_key": "f1",
+            "value": "$500K",
+            "label": "Raised at Fetch’s first NYC gala, which the campaign supported"
+          }
+        ],
+        "diagram": {
+          "title": "Where the category stood",
+          "caption": "We mapped every major competitor on two axes. All of them sat in the bottom-left quadrant, which left the top-right open for Fetch.",
+          "crowded": {
+            "position": "bottom-left",
+            "label": "Every competitor"
+          }
+        },
+        "businessProblem": "Pet insurance is sold with statistics: up to 90% coverage, most comprehensive, best-in-class reimbursement. In a category dominated by impersonal facts, meaning had disappeared. Fetch, a premium-priced, best-in-class product, was stuck competing on the same transactional ground as everyone else. When every brand sounds the same, price becomes the only differentiator, and customers churn.",
+        "strategicInsight": "The category sells protection against what might go wrong tomorrow. But Fetch’s customers treat their pets as family, and the most powerful thing Fetch sells is time. So I redefined insurance from a reactive safety net to an investment in more years together. Nobody owned the longevity story, even though Fetch’s coverage was already built for it.",
+        "framework": "A competitive audit mapped every major player onto a simple 2×2: self-focused vs. customer-focused, and immediate transactional value vs. long-term value. They all clustered in the same quadrant. The open space was customer-focused and long-term, the only place a premium brand could credibly stand. We tested platform options against four criteria: ladder to brand purpose, incorporate Everyday Matters, tie the business units together, and break category convention.",
+        "decisionProcess": "We started with a full audit of Fetch’s materials plus independent research, then mapped competitor messaging to find the gaps, clichés, and white space. I built the strategic frame from the client’s own DNA and ran platform options through the four criteria. That led to one platform, Love Longer, which moves the story from coverage to longevity and turns a functional truth into an emotional commitment.",
+        "execution": "The platform became a full messaging system: a framework across insurance, wellness, and partnerships, with every reason to believe rewritten from functional language into longevity language. The campaign used honest, human creative. Real pets and owners, natural light, and quiet markers like “Insured since 2018” signal longevity without shouting, with headlines like “Coverage that keeps the years coming.” No fear, no theatrics."
+      }
+    },
+    {
+      "id": "6PahXDAqdeBo5CX2IMlxlA",
+      "slug": "hmh-dont-mind-your-own-business",
+      "set": {
+        "brief": "Hackensack Meridian Health was the official hospital of the NY/NJ World Cup Host Committee. It wanted to use the tournament’s reach to help people recognize human trafficking and respond to it.",
+        "reframe": "In New York and New Jersey, minding your own business is how people get through the day. The campaign had to make staring the helpful thing to do.",
+        "diagram": {
+          "title": "Where the strategy moved",
+          "caption": "Most trafficking campaigns tell people to stay alert. This one went after the habit that stops people from looking in the first place."
+        },
+        "businessProblem": "Hackensack Meridian Health came to us as the official hospital of the NY/NJ World Cup Host Committee with an awareness challenge. More than 1.2 million visitors were expected in the region, and officials anticipated increased human trafficking risk around the tournament. HMH wanted to use the scale and visibility of the World Cup to raise awareness and help people recognize and respond to the signs.",
+        "strategicInsight": "We’re taught to mind our own business. It works broadly, including in the suburbs, but it felt particularly native to New York and New Jersey. Packed trains, crowded sidewalks, airports, hotels, and major events teach you to filter out a tremendous amount of what’s happening around you. In a region where there’s always something happening, minding your own business becomes a social norm. Human trafficking creates a reason to challenge that norm: it happens in the same everyday places where we’re conditioned to keep moving and leave other people alone.",
+        "framework": "Instead of competing in the crowded “stay alert” space as one more voice telling people to watch what’s happening around them, I went upstream to the behavioral barrier that comes before awareness. The problem wasn’t that people didn’t know the signs; it was that they’d been trained not to look. So rather than asking people to “see something, say something,” we set out to interrupt the instinct that comes before seeing anything at all.",
+        "decisionProcess": "We knew from the start we needed to go beyond another “see something, say something” campaign, especially in New York and New Jersey. People there are already surrounded by messages telling them to stay alert, and those messages compete with a deeply ingrained instinct to keep your head down, not stare, and not get involved. That tension led me to the question behind the campaign: what if, in this instance, minding someone else’s business could help save their life?",
+        "execution": "That thinking became “Don’t Mind Your Own Business.” We took staring, something people are normally told not to do, and turned it into the action we wanted them to take. The campaign then gave people somewhere to go with that attention: QR codes, hotline information, and educational resources, plus training tools for law enforcement, hospitals, and hospitality workers. It ran across high-volume transit areas, stadiums, and parks."
+      }
+    },
+    {
+      "id": "op79fflKKnOcSGwgxmugDc",
+      "slug": "amex-b2b-payments-messaging",
+      "set": {
+        "brief": "American Express had two strong B2B payment products, but its messaging made the same promises as every competitor: faster cash flow and lower costs.",
+        "reframe": "CFOs care less about how fast money moves than about what the freed-up cash can fund. Nobody in the category was talking about that.",
+        "contribution": "I led brand and sales enablement for American Express Global Commercial Services. We also produced monthly competitive intelligence on nine major financial brands.",
+        "figures": [
+          {
+            "_key": "f1",
+            "value": "2",
+            "label": "Messaging playbooks, one for Buyer Initiated Payments and one for One AP"
+          },
+          {
+            "_key": "f2",
+            "value": "9",
+            "label": "Financial brands tracked in monthly competitive intelligence"
+          }
+        ],
+        "diagram": {
+          "caption": "Each shift matches a stage of the buyer’s journey, from first looking for a better way to pay suppliers to building the business case."
+        },
+        "businessProblem": "American Express had built serious B2B payment products: Buyer Initiated Payments for large corporate buyers, and One AP for accounts-payable automation. But the messaging sold them as plumbing, with feature lists, processing language, and short-term promises. Every competitor said the same things: accelerate cash flow, collect money faster, lower costs. When the whole category talks about immediate benefits, products that deliver long-term strategic value get evaluated like commodities, and B2B buyers default to whoever looks cheapest or fastest.",
+        "strategicInsight": "Competitors had claimed every short-term benefit, which left the long-term story wide open, and that’s where the real buying decision lives. CFOs wanted more than faster payments. They were using working capital to fund growth and plan for what’s next. The products already delivered that, so I set out to move the messaging from what the products do to what they make possible.",
+        "framework": "For BIP, I made three shifts: Working Capital becomes Investing in the Future, Process Efficiency becomes Smarter Decisions for Everyone, and Enrollment Support becomes Best-in-Class Partnership. Each is mapped to where the buyer is in their journey, from the first “I need a better way to manage supplier payments” moment to the final business case. For One AP, I built the key message on the one thing challenger fintechs couldn’t credibly own at Amex’s scale: control. Three value pillars support it, built from field-team interviews on the inside and competitive analysis on the outside.",
+        "decisionProcess": "We started with discovery before writing anything: competitive mapping across e-payables, traditional banks, and fintechs; research into how financial decision-makers think about working capital; and field interviews with the teams hearing objections firsthand. The pattern that emerged, a category selling short-term wins to buyers planning for the long term, became the strategy. We built the frameworks, tested them against client feedback, and revised them, then turned them into playbooks so every marketer and agency partner tells the same story the same way.",
+        "execution": "We delivered two messaging playbooks that turned the strategy into day-to-day guidance. They cover key messages, pillar-level messaging with reasons to believe, customer-journey maps showing which message lands at awareness, consideration, and engagement, and messaging dos and don’ts. The BIP work connects up through the B2B Payments Solutions story into the broader commercial payments narrative, so one story runs from product feature to portfolio."
+      }
+    },
+    {
+      "id": "op79fflKKnOcSGwgxne7n3",
+      "slug": "diageo-stages-not-ages",
+      "set": {
+        "brief": "Diageo wanted to understand drinkers aged 21 to 29 and turn that understanding into a plan for winning with them.",
+        "reframe": "Life stage tells you more about how these drinkers behave than their generation does.",
+        "diagram": {
+          "title": "Five phases of research",
+          "caption": "Each phase fed the next, from what was already known to live workshops with drinkers."
+        },
+        "businessProblem": "Diageo needed to future-proof its business with the next generation of drinkers, 21- to 29-year-olds, but the industry was working from stereotypes. Marketing was built on generational labels that much of the audience rejects, and on assumptions about young drinkers that didn’t survive contact with real life. The brief: build foundational insight into who these drinkers are, and land it in a clear action plan for how to win with them.",
+        "strategicInsight": "The headline finding flipped the brief’s premise. These drinkers are people at wildly different life stages who happen to share a birth window. A 21-year-old moving out for the first time and a 29-year-old new parent have almost nothing in common except the label, and many reject the label outright. Attitudinally they look a lot like Millennials. Behaviorally, especially around alcohol, they’re different: more apathetic toward the category, less engaged with brands, and drawn to mid-tempo third spaces over traditional nightlife. They also behave more like characters than consumers, curating identity through the brands they choose and changing as their character evolves. Strategy built on the label would miss them entirely.",
+        "framework": "A five-phase research plan that moved from observation to action: existing knowledge synthesis, cultural expert interviews, a seven-day digital ethnography with 40 young drinkers across the US, a 4,000-person quantitative survey, and live immersive workshops in New York and Phoenix. We organized the findings into four chapters (People, Culture, Category, Brands), each answering a specific question, and ran them through an OODA loop: observe, orient, decide, act. The structure forced every insight to earn its way into the playbook.",
+        "decisionProcess": "I led the digital ethnography analysis, working through hundreds of photos, videos, and social diary posts from young drinkers living their lives, alongside the New York and Phoenix field workshops. The method was to start with real behavior before forming hypotheses, then test what emerged at scale. That’s where the stereotype-busting findings came from: regional differences that defied assumptions, the “stages not ages” pattern, and the discovery that authenticity for this audience means intent (walk the talk), and that it’s a word they rarely use themselves. Asked to name favorite brands, almost nobody said “authentic.”",
+        "execution": "We delivered a playbook for building brands for the next generation: how to win on mental availability, how moderation works, what the growing mid-tempo occasion landscape means for where brands show up, and myth-busting guidance on established versus new brands and purpose versus intent. It came as a workshop, a digital debrief, and a visual insight summary with a bank of photo and video evidence, built for the team to use day to day."
+      }
+    },
+    {
+      "id": "Uf53TPBQM5Yqmdb4HuieQ3",
+      "slug": "apollo-audience-segmentation",
+      "set": {
+        "brief": "Apollo sells to more than ten kinds of investor, from pensions to RIAs, and its materials opened with Apollo’s credentials every time.",
+        "reframe": "The positioning could stay the same. What had to change was where each conversation started.",
+        "contribution": "I built the audience segmentation messaging playbook, a shared system brand and product marketing teams use to decide who they’re talking to and why.",
+        "diagram": {
+          "caption": "Teams use it to prepare for client meetings and to steer a live conversation toward a decision."
+        },
+        "businessProblem": "Apollo speaks to more than ten distinct audiences (pensions, sovereign wealth funds, insurance CIOs, endowments, family offices, consultants, wirehouses, broker-dealers, RIAs, and policymakers) but was telling them all the same story. Materials led with Apollo’s credentials and capabilities rather than the client’s reality. Because the message was the same for everyone, it landed with no one in particular. In a category where the quality of communication directly influences manager selection, that was a commercial problem as much as a comms one.",
+        "strategicInsight": "Every client conversation starts in a different place, with its own pressures and its own definition of success. A pension trustee asking whether income will meet future obligations is making a fundamentally different decision than a wirehouse platform deciding what earns a place on the approved shelf. So I kept one consistent positioning and adapted the emphasis to each audience’s reality: their pressure, the decision they’re making, and the assumption worth challenging.",
+        "framework": "Two tools. A seven-step response framework moves any client conversation from explanation to decision: start with the client reality, frame the decision, identify the assumption being taken for granted, stress-test it, introduce the model, prove it, and land the outcome. An audience map covers ten segments across institutional, wealth, and partners, each mapped on responsibility, pressure, the real decision, the assumption to challenge, and a core message. Underpinning both, six writing principles: the audience comes before us, the client outcome is the story, speak to market reality, challenge assumptions, provide proof at every turn.",
+        "decisionProcess": "I started by auditing Apollo’s existing materials, which surfaced the pattern: credentials-led openings, capability descriptions instead of client outcomes, and abstract language where plain statements would do. I mapped the full audience universe from their realities rather than Apollo’s org chart, and built the response framework as a thinking tool first, something teams could use to prepare for meetings and adapt in live conversation. We then turned everything into a messaging playbook with ready-made copy blocks per audience, so teams would use the thinking day to day.",
+        "execution": "We delivered the playbook and ten audience copy briefs, then applied the framework to live materials: the wealth sell sheet, institutional and wealth homepages, product strategy deck openings, regional event content, and the EMEA capabilities brochure. Every rewrite made the same move: open with the audience’s reality instead of Apollo’s credentials, replace abstract language with plain statements of what the client gets, and back each claim with proof."
+      }
+    }
+  ]
+}

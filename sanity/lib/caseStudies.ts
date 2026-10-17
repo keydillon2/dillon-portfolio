@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import { client } from './client'
+import copyPass from '../content/copy-v3.json'
 
 export interface SanityImage {
   asset?: { _id?: string; metadata?: { dimensions?: { width: number; height: number } } }
@@ -70,8 +71,26 @@ const ALL = `*[_type == "caseStudy" && defined(slug.current)] | order(publishedA
  */
 export async function getCaseStudies(): Promise<CaseStudy[]> {
   const fixture = process.env.PORTFOLIO_FIXTURE
-  if (fixture) return JSON.parse(await readFile(fixture, 'utf8')) as CaseStudy[]
-  return client.fetch<CaseStudy[]>(ALL)
+  const all = fixture
+    ? (JSON.parse(await readFile(fixture, 'utf8')) as CaseStudy[])
+    : await client.fetch<CaseStudy[]>(ALL)
+  // Preview deployments show the proposed copy pass so it can be compared with
+  // the live site before anything is written to Sanity. Production is untouched.
+  return process.env.VERCEL_ENV === 'preview' || process.env.COPY_PREVIEW === '1' ? all.map(applyCopyPass) : all
+}
+
+type Plain = Record<string, unknown>
+const isPlain = (v: unknown): v is Plain => typeof v === 'object' && v !== null && !Array.isArray(v)
+
+function merge(base: Plain, patch: Plain): Plain {
+  const out: Plain = { ...base }
+  for (const [k, v] of Object.entries(patch)) out[k] = isPlain(v) && isPlain(out[k]) ? merge(out[k] as Plain, v) : v
+  return out
+}
+
+function applyCopyPass(cs: CaseStudy): CaseStudy {
+  const patch = copyPass.patches.find((p) => p.id === cs._id)
+  return patch ? (merge(cs as unknown as Plain, patch.set as Plain) as unknown as CaseStudy) : cs
 }
 
 /** One case study plus the next one in the list (wrapping around), for the "next case" link. */
