@@ -6,7 +6,7 @@
       "slug": "fetch-love-longer",
       "set": {
         "brief": "Fetch is a premium pet insurer in a category where every brand sells on coverage statistics, so price ends up deciding. The job was to give people another reason to choose it.",
-        "reframe": "Most people buy pet insurance as protection against a bad day. Fetch could sell it as a long-term investment in more healthy years with your pet, and its coverage already backed that up.",
+        "reframe": "Treat pet insurance as a long-term investment: more healthy years with your pet.",
         "contribution": "I repositioned Fetch from a purchase people put up with to an investment in their pet’s long life. From there we built the Love Longer platform and its messaging system.",
         "figures": [
           {
@@ -35,7 +35,7 @@
       "slug": "hmh-dont-mind-your-own-business",
       "set": {
         "brief": "Hackensack Meridian Health was the official hospital of the NY/NJ World Cup Host Committee. It wanted to use the tournament’s reach to help people recognize human trafficking and respond to it.",
-        "reframe": "In New York and New Jersey, minding your own business is how people get through the day. The campaign had to interrupt the instinct to look away.",
+        "reframe": "In New York, minding your own business is how you get through the day. The campaign had to interrupt the instinct to look away.",
         "diagram": {
           "title": "Where the strategy moved",
           "caption": "Most trafficking campaigns tell people to stay alert. This one went after the habit that stops people from looking in the first place."
@@ -52,7 +52,7 @@
       "slug": "amex-b2b-payments-messaging",
       "set": {
         "brief": "American Express had two strong B2B payment products, but its messaging made the same promises as every competitor: faster cash flow and lower costs.",
-        "reframe": "CFOs want payments to move fast because speed frees up working capital, and working capital funds growth. The messaging had to connect the speed to that bigger goal.",
+        "reframe": "Speed matters because it frees up working capital, and working capital funds growth.",
         "contribution": "I led brand and sales enablement for American Express Global Commercial Services. We also produced monthly competitive intelligence on nine major financial brands.",
         "figures": [
           {
@@ -81,7 +81,7 @@
       "slug": "diageo-stages-not-ages",
       "set": {
         "brief": "Diageo wanted to understand drinkers aged 21 to 29 and turn that understanding into a plan for winning with them.",
-        "reframe": "A 21-year-old moving out and a 29-year-old new parent share a birth window, not a mindset. Marketing built on the generational label would miss both.",
+        "reframe": "Gen Z shares a birth window, not a mindset.",
         "diagram": {
           "title": "Five phases of research",
           "caption": "Each phase fed the next, from what was already known to live workshops with drinkers."
@@ -97,17 +97,43 @@
       "id": "Uf53TPBQM5Yqmdb4HuieQ3",
       "slug": "apollo-audience-segmentation",
       "set": {
-        "brief": "Apollo sells to more than ten kinds of investor, from pensions to RIAs, and its materials opened with Apollo’s credentials every time.",
-        "reframe": "Each audience faces different pressures, but they’re all deciding whether to choose Apollo. The playbook gives teams the message that fits each audience and occasion, so every conversation leads to that same decision.",
-        "contribution": "I built the audience segmentation messaging playbook, a shared system brand and product marketing teams use to decide who they’re talking to and why.",
+        "brief": "Make Apollo easy to understand, and easy to choose, for ten very different audiences: pensions, sovereign wealth funds, insurance CIOs, endowments, family offices, consultants, wirehouses, broker-dealers, RIAs, and policymakers.",
+        "reframe": "Different pressures, same decision: choose Apollo.",
+        "contribution": "I built the audience messaging playbook and the decision journeys that turn it into a go-to-market plan for wealth advisors and institutional investors.",
         "diagram": {
-          "caption": "Teams use it to prepare for client meetings and to steer a live conversation toward a decision."
+          "kind": "sequence",
+          "title": "An audience decision journey",
+          "caption": "Each stage sets a messaging objective and the line we want the audience to walk away with. Firm messaging opens the journey, and product messaging takes over as audiences compare managers and commit.",
+          "steps": [
+            "Context gathering",
+            "Active evaluation",
+            "Client conversation or committee approval",
+            "Moment of stress",
+            "Advocacy"
+          ]
         },
-        "businessProblem": "Apollo speaks to more than ten distinct audiences (pensions, sovereign wealth funds, insurance CIOs, endowments, family offices, consultants, wirehouses, broker-dealers, RIAs, and policymakers) but was telling them all the same story. Materials led with Apollo’s credentials and capabilities rather than the client’s reality. Because the message was the same for everyone, it landed with no one in particular. In a category where the quality of communication directly influences manager selection, that was a commercial problem as much as a comms one.",
-        "strategicInsight": "Every client conversation starts in a different place, with its own pressures and its own definition of success. A pension trustee asking whether income will meet future obligations is making a fundamentally different decision than a wirehouse platform deciding what earns a place on the approved shelf. So I kept one consistent positioning and adapted the emphasis to each audience’s reality: their pressure, the decision they’re making, and the assumption worth challenging.",
-        "framework": "Two tools. A seven-step response framework moves any client conversation from explanation to decision: start with the client reality, frame the decision, identify the assumption being taken for granted, stress-test it, introduce the model, prove it, and land the outcome. An audience map covers ten segments across institutional, wealth, and partners, each mapped on responsibility, pressure, the real decision, the assumption to challenge, and a core message. Underpinning both, six writing principles: the audience comes before us, the client outcome is the story, speak to market reality, challenge assumptions, provide proof at every turn.",
-        "decisionProcess": "I started by auditing Apollo’s existing materials, which surfaced the pattern: credentials-led openings, capability descriptions instead of client outcomes, and abstract language where plain statements would do. I mapped the full audience universe from their realities rather than Apollo’s org chart, and built the response framework as a thinking tool first, something teams could use to prepare for meetings and adapt in live conversation. We then turned everything into a messaging playbook with ready-made copy blocks per audience, so teams would use the thinking day to day.",
-        "execution": "We delivered the playbook and ten audience copy briefs, then applied the framework to live materials: the wealth sell sheet, institutional and wealth homepages, product strategy deck openings, regional event content, and the EMEA capabilities brochure. Every rewrite made the same move: open with the audience’s reality instead of Apollo’s credentials, replace abstract language with plain statements of what the client gets, and back each claim with proof."
+        "businessProblem": "Apollo speaks to more than ten distinct audiences, each with its own pressures, gatekeepers, and way of deciding. Its materials told them all the same story, and led with Apollo’s credentials rather than the client’s reality. In a category where the quality of communication directly influences manager selection, that was a commercial problem as much as a comms one.",
+        "strategicInsight": "Every audience is heading toward the same decision, choosing Apollo, but each one starts from a different pressure. A pension trustee needs income that meets future obligations. A wealth advisor has to explain a private markets fund to a client without oversimplifying it. So I organized the work around how each audience decides, and which message they need at each step on the way there.",
+        "framework": "Two layers. The messaging playbook covers ten audiences across institutional, wealth, and partners, each mapped on responsibility, pressure, the real decision, the assumption to challenge, and a core message. On top of it, I built an audience decision journey for wealth advisors and another for institutional investors, each with five stages: context gathering, active evaluation, the client conversation or committee approval, the moment of stress, and advocacy. Every stage sets a messaging objective and the takeaway we want the audience to leave with, and says whether firm-level or product-level messaging leads. Firm messaging gets Apollo onto the shortlist. Product messaging takes over as advisors and allocators compare managers and commit.",
+        "decisionProcess": "I started by auditing Apollo’s existing materials, which surfaced the pattern: credentials-led openings, capability descriptions instead of client outcomes, and abstract language where plain statements would do. I mapped the audiences from their realities rather than Apollo’s org chart, then grouped them by how they buy. Wealth is a two-step sale: Apollo has to earn the advisor’s confidence, then equip the advisor to make the case to clients. Institutions run long, governed processes shaped by consultants and committees, so a newer strategy has to be understood before it can be considered. Those two paths became the two journeys.",
+        "execution": "We delivered the playbook and ten audience copy briefs, then applied them to live materials: the wealth sell sheet, institutional and wealth homepages, product strategy deck openings, regional event content, and the EMEA capabilities brochure. The decision journeys now shape a go-to-market plan with two pilot programs, one for wealth advisors and one for institutional investors. Each pilot tests whether a broad Apollo message or a product-specific one creates the stronger path to a sales conversation.",
+        "figures": [
+          {
+            "_key": "f1",
+            "value": "$500B",
+            "label": "Assets under management at Apollo"
+          },
+          {
+            "_key": "f2",
+            "value": "10",
+            "label": "Audiences, each with its own copy brief"
+          },
+          {
+            "_key": "f3",
+            "value": "5",
+            "label": "Stages in each audience decision journey"
+          }
+        ]
       }
     }
   ]
