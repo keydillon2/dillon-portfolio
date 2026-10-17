@@ -4,10 +4,18 @@
  * keep, so it gets the page's one piece of motion: the connector draws in
  * and the reframe settles after it (skipped under reduced motion).
  */
-export default function BriefReframe({ brief, reframe }: { brief?: string; reframe?: string }) {
+export default function BriefReframe({
+  brief,
+  reframe,
+  label = 'The reframe',
+}: {
+  brief?: string
+  reframe?: string
+  label?: string
+}) {
   if (!brief || !reframe) return null
   return (
-    <section aria-label="The brief and the reframe" className="grid gap-0 md:grid-cols-[1fr_4.5rem_1.35fr] md:items-stretch">
+    <section aria-label={`The brief and ${label.toLowerCase()}`} className="grid gap-0 md:grid-cols-[1fr_4.5rem_1.35fr] md:items-stretch">
       <div className="md:py-1">
         <h2 className="text-meta font-medium text-muted">The brief</h2>
         <p className="mt-2 max-w-[44ch] text-muted text-pretty">{brief}</p>
@@ -19,7 +27,7 @@ export default function BriefReframe({ brief, reframe }: { brief?: string; refra
       </div>
 
       <div className="reframe-text border-l-2 border-accent pl-5">
-        <h2 className="text-meta font-medium text-accent">The reframe</h2>
+        <h2 className="text-meta font-medium text-accent">{label}</h2>
         <p className="mt-2 max-w-[48ch] font-serif text-[1.25rem] leading-[1.45] sm:text-[1.5rem] text-pretty">
           {reframe}
         </p>

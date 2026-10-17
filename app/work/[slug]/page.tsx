@@ -78,9 +78,9 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
         )}
       </header>
 
-      {(cs.brief && cs.reframe) && (
+      {(cs.brief && (cs.wayIn || cs.reframe)) && (
         <div className="mt-16 sm:mt-20">
-          <BriefReframe brief={cs.brief} reframe={cs.reframe} />
+          <BriefReframe brief={cs.brief} reframe={cs.wayIn || cs.reframe} label={cs.wayIn ? 'The way in' : 'The reframe'} />
         </div>
       )}
 

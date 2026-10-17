@@ -36,6 +36,7 @@ export interface CaseStudy {
   headline?: string
   brief?: string
   reframe?: string
+  wayIn?: string
   role?: string
   contribution?: string
   figures?: Figure[]
@@ -54,7 +55,7 @@ const IMAGE = `alt, caption, asset->{ _id, metadata { dimensions { width, height
 
 const FIELDS = `
   _id, title, "slug": slug.current, client, industry,
-  headline, brief, reframe, role, contribution, figures,
+  headline, brief, reframe, wayIn, role, contribution, figures,
   businessProblem, strategicInsight, framework, decisionProcess, execution,
   diagram,
   coverImage { ${IMAGE} },

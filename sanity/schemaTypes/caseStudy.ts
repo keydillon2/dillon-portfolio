@@ -56,7 +56,15 @@ export const caseStudy = defineType({
       type: 'text',
       rows: 2,
       group: 'summary',
-      description: 'What the real problem turned out to be, in one or two sentences.',
+      description: 'Shown on the home page. What the real problem turned out to be, in one or two sentences.',
+    }),
+    defineField({
+      name: 'wayIn',
+      title: 'The way in',
+      type: 'string',
+      group: 'summary',
+      description: 'Shown on the case page beside the brief. The single-minded idea that shaped the work, in one short line. Falls back to the reframe when empty.',
+      validation: (rule) => rule.max(140).warning('Keep it to one short line.'),
     }),
     defineField({
       name: 'role',
