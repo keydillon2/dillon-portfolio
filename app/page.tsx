@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import CaseRow from './components/CaseRow'
 import { getCaseStudies } from '@/sanity/lib/caseStudies'
 import { site } from '@/lib/site'
 import Figures from './components/Figures'
@@ -54,9 +55,9 @@ export default async function Home() {
           <ol className="mt-4 border-t border-rule">
             {caseStudies.map((cs) => (
               <li key={cs._id} className="border-b border-rule">
-                <Link
+                <CaseRow
                   href={`/work/${cs.slug}`}
-                  className="case-row group grid gap-4 py-10 md:grid-cols-[13rem_1fr] md:gap-10"
+                  className="group grid gap-4 py-10 md:grid-cols-[13rem_1fr] md:gap-10"
                 >
                   <div className="text-meta">
                     <p className="font-medium text-ink">{cs.client}</p>
@@ -64,7 +65,9 @@ export default async function Home() {
                   </div>
                   <div className="min-w-0">
                     <p className="text-[1.5rem] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[1.875rem] text-balance transition-colors group-hover:text-accent">
-                      {cs.headline ?? cs.title}
+                      <Link href={`/work/${cs.slug}`} className="case-row" draggable={false}>
+                        {cs.headline ?? cs.title}
+                      </Link>
                     </p>
                     {cs.reframe && (
                       <p className="mt-3 max-w-[60ch] text-muted text-pretty">{cs.reframe}</p>
@@ -75,7 +78,7 @@ export default async function Home() {
                       </div>
                     ) : null}
                   </div>
-                </Link>
+                </CaseRow>
               </li>
             ))}
           </ol>
