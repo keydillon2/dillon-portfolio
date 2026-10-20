@@ -4,6 +4,7 @@ import "@fontsource-variable/schibsted-grotesk";
 import "@fontsource-variable/source-serif-4/opsz.css";
 import "./globals.css";
 import { site, siteUrl } from "@/lib/site";
+import ChatBar from "./components/ChatBar";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
@@ -18,7 +19,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         <div className="flex-1">{children}</div>
-        <footer className="mx-auto w-full max-w-5xl px-6 pb-12">
+        <footer className="mx-auto w-full max-w-5xl px-6 pb-32">
           <div className="flex flex-col gap-2 border-t border-rule pt-8 text-meta text-muted sm:flex-row sm:justify-between">
             <p>
               {site.name}, {site.role}, New York
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </ul>
           </div>
         </footer>
+        <ChatBar />
       </body>
     </html>
   );
