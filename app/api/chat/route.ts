@@ -70,7 +70,13 @@ export async function POST(request: Request) {
   })
   if (!upstream.ok || !upstream.body) {
     console.error('chat upstream error', upstream.status, await upstream.text().catch(() => ''))
-    return new Response('The assistant is unavailable right now. Please email dillon.key@gmail.com.', { status: 502 })
+    const busy = upstream.status === 429
+    return new Response(
+      busy
+        ? 'The assistant is busy right now. Try again in a minute, or email dillon.key@gmail.com.'
+        : 'The assistant is unavailable right now. Please email dillon.key@gmail.com.',
+      { status: busy ? 503 : 502 },
+    )
   }
 
   // Turn the server-sent events into a plain text stream of answer tokens.
