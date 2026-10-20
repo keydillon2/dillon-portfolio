@@ -11,29 +11,63 @@ const SUGGESTIONS = [
   'What was the insight behind Love Longer?',
   'How did Dillon find white space in pet insurance?',
   'What did the Fetch competitive audit show?',
+  'How do most pet insurers market themselves?',
+  'What four criteria shaped the Fetch platform?',
+  'How did the Fetch work rewrite the reasons to believe?',
+  'What does the Love Longer creative look like?',
+  'What role did Dillon play on Fetch?',
   // Hackensack Meridian Health
   'Why “Don’t Mind Your Own Business”?',
   'How did the Hackensack campaign turn staring into action?',
   'Where did the World Cup campaign run?',
+  'Why not use “see something, say something”?',
+  'What behavior was the Hackensack campaign trying to change?',
+  'Why is minding your own business so strong in New York?',
+  'What did the campaign give people to do next?',
+  'How big was the audience for the World Cup campaign?',
   // American Express
   'How did Dillon reframe Amex’s B2B payments?',
   'What were the three shifts for Buyer Initiated Payments?',
   'Why build the One AP message around control?',
+  'What was wrong with how Amex sold B2B payments?',
+  'How do CFOs think about working capital?',
+  'What went into the Amex messaging playbooks?',
+  'How did field interviews shape the Amex work?',
+  'What competitive intelligence did Dillon run for Amex?',
   // Diageo
   'What does “stages, not ages” mean?',
   'How was the Diageo research structured?',
   'What surprised the team about young drinkers?',
+  'How do young drinkers relate to brands?',
+  'What are mid-tempo third spaces?',
+  'What did Dillon lead on the Diageo project?',
+  'How did the OODA loop shape the Diageo findings?',
+  'What does authenticity mean to this audience?',
   // Apollo
   'How did Dillon simplify Apollo for ten audiences?',
   'What is the audience decision journey?',
   'When does Apollo’s messaging shift from firm to product?',
   'How do wealth advisors and institutions decide differently?',
+  'Who are Apollo’s ten audiences?',
+  'What was wrong with Apollo’s old materials?',
+  'What happens at the “moment of stress” stage?',
+  'Which Apollo materials were rewritten?',
+  'Why is wealth a two-step sale?',
   // Across the work
   'What do these five cases have in common?',
   'How does Dillon turn research into strategy?',
   'Which cases are in financial services?',
   'Which case shows his research skills best?',
+  'How does Dillon use competitive audits?',
+  'Which cases led to a campaign in market?',
+  'How does Dillon make complex products simple?',
+  'What kinds of frameworks does Dillon build?',
+  'Which case is the best example of a reframe?',
 ]
+
+const SHOWN = 5
+// First set, one per case, so the server and browser render the same thing.
+const FIRST_SET = [0, 8, 16, 24, 32]
 
 // Render the assistant's light Markdown: [links](/path) and **bold**.
 function rich(text: string): ReactNode[] {
@@ -64,7 +98,7 @@ export default function ChatBar() {
   const [turns, setTurns] = useState<Turn[]>([])
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
-  const [suggestion, setSuggestion] = useState(0)
+  const [shown, setShown] = useState<number[]>(FIRST_SET)
   const scroller = useRef<HTMLDivElement>(null)
   const field = useRef<HTMLInputElement>(null)
 
@@ -80,17 +114,19 @@ export default function ChatBar() {
 
   if (pathname?.startsWith('/studio')) return null
 
+  // Five new questions, none repeated from the current set.
   function shuffle() {
-    setSuggestion((current) => {
-      let next = current
-      while (next === current) next = Math.floor(Math.random() * SUGGESTIONS.length)
-      return next
-    })
+    const pool = SUGGESTIONS.map((_, i) => i).filter((i) => !shown.includes(i))
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[pool[i], pool[j]] = [pool[j], pool[i]]
+    }
+    setShown(pool.slice(0, SHOWN))
   }
 
   // Put the suggestion in the box for the visitor to edit; they choose when to send.
-  function applySuggestion() {
-    setInput(SUGGESTIONS[suggestion])
+  function applySuggestion(text: string) {
+    setInput(text)
     requestAnimationFrame(() => {
       const el = field.current
       if (!el) return
@@ -152,28 +188,15 @@ export default function ChatBar() {
               </button>
               <button
                 type="button"
-                onClick={applySuggestion}
-                title="Use this question"
-                className="min-w-0 flex-1 truncate text-left text-meta text-muted hover:text-accent"
-              >
-                {SUGGESTIONS[suggestion]}
-              </button>
-              <button
-                type="button"
                 onClick={() => setOpen(false)}
-                className="-mr-1 rounded-md px-2 py-1 text-meta text-muted hover:text-ink"
+                className="-mr-1 ml-auto rounded-md px-2 py-1 text-meta text-muted hover:text-ink"
                 aria-label="Close chat"
               >
                 Close
               </button>
             </div>
             <div ref={scroller} className="max-h-[min(55vh,28rem)] space-y-4 overflow-y-auto px-4 py-4" aria-live="polite">
-              {turns.length === 0 ? (
-                <p className="text-muted text-pretty">
-                  Ask about Dillon&rsquo;s clients, how he works, or his background. Answers come from this site and his resume.
-                </p>
-              ) : (
-                turns.map((t, i) =>
+              {turns.map((t, i) =>
                   t.role === 'user' ? (
                     <p key={i} className="ml-auto w-fit max-w-[85%] rounded-2xl bg-wash px-3.5 py-2 text-pretty">
                       {t.content}
@@ -183,7 +206,21 @@ export default function ChatBar() {
                       {t.content ? rich(t.content) : <span className="text-muted">Thinking…</span>}
                     </p>
                   ),
-                )
+              )}
+              {!busy && (
+                <ul aria-label="Suggested questions" className={`-mx-2 ${turns.length ? 'border-t border-rule pt-3' : ''}`}>
+                  {shown.map((i) => (
+                    <li key={i}>
+                      <button
+                        type="button"
+                        onClick={() => applySuggestion(SUGGESTIONS[i])}
+                        className="w-full rounded-lg px-2 py-1.5 text-left text-[0.8125rem] leading-snug text-muted hover:bg-wash hover:text-ink"
+                      >
+                        {SUGGESTIONS[i]}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
           </div>
