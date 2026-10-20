@@ -94,7 +94,7 @@ export async function POST(request: Request) {
           if (!data || data === '[DONE]' || !line.startsWith('data:')) continue
           try {
             const text = JSON.parse(data).choices?.[0]?.delta?.content
-            if (text) controller.enqueue(encoder.encode(text.replace(/[\u2010\u2011]/g, '-')))
+            if (text) controller.enqueue(encoder.encode(text.replace(/[\u2010\u2011]/g, '-').replace(/\s*\u2014\s*/g, ', ')))
           } catch {
             // Ignore keep-alives and partial lines.
           }
