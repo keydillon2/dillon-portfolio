@@ -180,7 +180,7 @@ export default function ChatBar() {
             e.preventDefault()
             ask(input)
           }}
-          className="flex items-center gap-2 rounded-full border border-rule bg-paper py-1.5 pr-1.5 pl-5 shadow-[0_8px_30px_-12px_rgb(0_0_0/0.25)] focus-within:border-accent"
+          className="flex items-center gap-2 rounded-full border border-rule bg-paper py-1.5 pr-1.5 pl-5 shadow-[0_8px_30px_-12px_rgb(0_0_0/0.25)]"
         >
           <label htmlFor="chat-input" className="sr-only">
             Ask about Dillon&rsquo;s work
@@ -194,7 +194,7 @@ export default function ChatBar() {
             maxLength={500}
             autoComplete="off"
             placeholder="Ask about Dillon’s work"
-            className="min-w-0 flex-1 bg-transparent py-1.5 text-ink outline-none placeholder:text-muted"
+            className="min-w-0 flex-1 bg-transparent py-1.5 text-ink caret-accent outline-none placeholder:text-muted"
           />
           <button
             type="submit"

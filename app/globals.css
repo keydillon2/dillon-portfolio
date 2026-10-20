@@ -105,6 +105,12 @@ body {
 }
 
 /* Index rows: the whole row is the link; keep the focus ring off the text. */
+/* The chat field shows only its blinking cursor when focused, no ring. */
+#chat-input:focus,
+#chat-input:focus-visible {
+  outline: none;
+}
+
 .case-row:focus-visible {
   outline-offset: -2px;
   border-radius: 6px;
