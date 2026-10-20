@@ -7,18 +7,32 @@ import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react'
 type Turn = { role: 'user' | 'assistant'; content: string }
 
 const SUGGESTIONS = [
-  'What kind of strategist is Dillon?',
-  'How does he approach a brief?',
-  'Walk me through the Apollo work',
+  // Fetch
   'What was the insight behind Love Longer?',
-  'How did the Hackensack campaign work?',
-  'What did he do for American Express?',
-  'What did the Diageo research find?',
-  'Which industries has he worked in?',
-  'What tools and frameworks does he use?',
-  'How does he work with clients and creative teams?',
-  'What is his background before strategy?',
-  'Why should we hire Dillon?',
+  'How did Dillon find white space in pet insurance?',
+  'What did the Fetch competitive audit show?',
+  // Hackensack Meridian Health
+  'Why “Don’t Mind Your Own Business”?',
+  'How did the Hackensack campaign turn staring into action?',
+  'Where did the World Cup campaign run?',
+  // American Express
+  'How did Dillon reframe Amex’s B2B payments?',
+  'What were the three shifts for Buyer Initiated Payments?',
+  'Why build the One AP message around control?',
+  // Diageo
+  'What does “stages, not ages” mean?',
+  'How was the Diageo research structured?',
+  'What surprised the team about young drinkers?',
+  // Apollo
+  'How did Dillon simplify Apollo for ten audiences?',
+  'What is the audience decision journey?',
+  'When does Apollo’s messaging shift from firm to product?',
+  'How do wealth advisors and institutions decide differently?',
+  // Across the work
+  'What do these five cases have in common?',
+  'How does Dillon turn research into strategy?',
+  'Which cases are in financial services?',
+  'Which case shows his research skills best?',
 ]
 
 // Render the assistant's light Markdown: [links](/path) and **bold**.
