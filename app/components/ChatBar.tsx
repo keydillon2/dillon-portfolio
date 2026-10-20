@@ -8,8 +8,17 @@ type Turn = { role: 'user' | 'assistant'; content: string }
 
 const SUGGESTIONS = [
   'What kind of strategist is Dillon?',
-  'Walk me through the Apollo work',
   'How does he approach a brief?',
+  'Walk me through the Apollo work',
+  'What was the insight behind Love Longer?',
+  'How did the Hackensack campaign work?',
+  'What did he do for American Express?',
+  'What did the Diageo research find?',
+  'Which industries has he worked in?',
+  'What tools and frameworks does he use?',
+  'How does he work with clients and creative teams?',
+  'What is his background before strategy?',
+  'Why should we hire Dillon?',
 ]
 
 // Render the assistant's light Markdown: [links](/path) and **bold**.
@@ -41,6 +50,7 @@ export default function ChatBar() {
   const [turns, setTurns] = useState<Turn[]>([])
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
+  const [suggestion, setSuggestion] = useState(0)
   const scroller = useRef<HTMLDivElement>(null)
   const field = useRef<HTMLInputElement>(null)
 
@@ -55,6 +65,25 @@ export default function ChatBar() {
   }, [])
 
   if (pathname?.startsWith('/studio')) return null
+
+  function shuffle() {
+    setSuggestion((current) => {
+      let next = current
+      while (next === current) next = Math.floor(Math.random() * SUGGESTIONS.length)
+      return next
+    })
+  }
+
+  // Put the suggestion in the box for the visitor to edit; they choose when to send.
+  function applySuggestion() {
+    setInput(SUGGESTIONS[suggestion])
+    requestAnimationFrame(() => {
+      const el = field.current
+      if (!el) return
+      el.focus()
+      el.setSelectionRange(el.value.length, el.value.length)
+    })
+  }
 
   async function ask(question: string) {
     const q = question.trim()
@@ -99,8 +128,22 @@ export default function ChatBar() {
             aria-label="Ask about Dillon's work"
             className="mb-2 overflow-hidden rounded-2xl border border-rule bg-paper shadow-[0_8px_40px_-12px_rgb(0_0_0/0.25)]"
           >
-            <div className="flex items-center justify-between border-b border-rule px-4 py-2.5">
-              <p className="text-meta text-muted">Dillon&rsquo;s assistant</p>
+            <div className="flex items-center gap-3 border-b border-rule px-4 py-2.5">
+              <button
+                type="button"
+                onClick={shuffle}
+                className="shrink-0 rounded-full border border-rule px-3 py-1 text-meta text-ink hover:border-accent hover:text-accent"
+              >
+                Shuffle questions
+              </button>
+              <button
+                type="button"
+                onClick={applySuggestion}
+                title="Use this question"
+                className="min-w-0 flex-1 truncate text-left text-meta text-muted hover:text-accent"
+              >
+                {SUGGESTIONS[suggestion]}
+              </button>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
@@ -112,23 +155,9 @@ export default function ChatBar() {
             </div>
             <div ref={scroller} className="max-h-[min(55vh,28rem)] space-y-4 overflow-y-auto px-4 py-4" aria-live="polite">
               {turns.length === 0 ? (
-                <div>
-                  <p className="text-muted text-pretty">
-                    Ask about Dillon&rsquo;s clients, how he works, or his background. Answers come from this site and his resume.
-                  </p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {SUGGESTIONS.map((s) => (
-                      <button
-                        key={s}
-                        type="button"
-                        onClick={() => ask(s)}
-                        className="rounded-full border border-rule px-3 py-1.5 text-meta text-ink hover:border-accent hover:text-accent"
-                      >
-                        {s}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                <p className="text-muted text-pretty">
+                  Ask about Dillon&rsquo;s clients, how he works, or his background. Answers come from this site and his resume.
+                </p>
               ) : (
                 turns.map((t, i) =>
                   t.role === 'user' ? (
@@ -143,9 +172,6 @@ export default function ChatBar() {
                 )
               )}
             </div>
-            <p className="border-t border-rule px-4 py-2 text-[0.75rem] leading-snug text-muted">
-              AI assistant. Answers can be wrong. Questions are saved anonymously so Dillon can improve the site.
-            </p>
           </div>
         )}
 
