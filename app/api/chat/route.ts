@@ -16,6 +16,14 @@ const MAX_TURNS = 8
 
 type Turn = { role: 'user' | 'assistant'; content: string }
 
+// Keep the assembled context warm between questions so most answers skip the Sanity fetch.
+let cached: { prompt: string; at: number } | null = null
+async function context() {
+  if (cached && Date.now() - cached.at < 5 * 60_000) return cached.prompt
+  cached = { prompt: systemPrompt(await getCaseStudies()), at: Date.now() }
+  return cached.prompt
+}
+
 export async function POST(request: Request) {
   const key = process.env.GROQ_API_KEY
   if (!key) return new Response('The chat isn’t set up yet.', { status: 503 })
@@ -48,13 +56,12 @@ export async function POST(request: Request) {
   const page = typeof body.page === 'string' ? body.page.slice(0, 100) : '/'
   after(() => logQuestion(question.content.trim(), page))
 
-  const cases = await getCaseStudies()
   const upstream = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: MODEL,
-      messages: [{ role: 'system', content: systemPrompt(cases) }, ...turns],
+      messages: [{ role: 'system', content: await context() }, ...turns],
       stream: true,
       temperature: 0.3,
       max_completion_tokens: 600,
@@ -81,7 +88,7 @@ export async function POST(request: Request) {
           if (!data || data === '[DONE]' || !line.startsWith('data:')) continue
           try {
             const text = JSON.parse(data).choices?.[0]?.delta?.content
-            if (text) controller.enqueue(encoder.encode(text))
+            if (text) controller.enqueue(encoder.encode(text.replace(/[\u2010\u2011]/g, '-')))
           } catch {
             // Ignore keep-alives and partial lines.
           }
