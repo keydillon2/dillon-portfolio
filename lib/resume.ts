@@ -8,7 +8,7 @@ Summary: I partner with CEOs and CMOs to uncover new ways to create value and co
 
 EXPERIENCE
 Senior Strategist, Prosek Partners, New York, NY. January 2025 to present.
-- Apollo Global Management (audience segmentation): built an audience segmentation messaging playbook for a $500B AUM global asset manager, defining how institutional, wealth, and stakeholder audiences should be addressed across the enterprise, giving brand and product marketing teams a shared system for who they're talking to and why.
+- Apollo Global Management (audience segmentation): for a $500B AUM global asset manager, built the audience one-sheeters that informed the team's messaging playbook, and the Audience Decision Journey that put the playbook to work for wealth advisors and institutional investors. The playbook itself was led by Dillon's boss and a freelancer; Dillon played a supporting role on it.
 - Fetch Pet Insurance (brand strategy and campaign launch): repositioned Fetch from a necessary-evil purchase to a smart investment in pet longevity. The reframe powered the Love Longer campaign, gave the CEO clarity in leading internal marketing teams, and contributed to $500K raised at Fetch's inaugural NYC gala.
 - Hackensack Meridian Health (creative and cultural strategy): for HMH's FIFA World Cup sponsorship, developed the creative strategy "Don't Mind Your Own Business," using cultural tension around a familiar idiom to engage New Yorkers on human trafficking during major entertainment events.
 - HedgeServ (brand strategy and visual identity): repositioned a fund administration business beyond hedge funds, turning complex enterprise technology into a clear promise for COOs. The CEO called the work the reason his team saw "exciting times ahead."
