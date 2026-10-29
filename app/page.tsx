@@ -36,6 +36,11 @@ export default async function Home() {
             and healthcare.
           </p>
         </div>
+        <p className="mt-6 text-meta">
+          <Link href="/resume" className="text-ink underline decoration-rule underline-offset-4 hover:decoration-accent">
+            View resume
+          </Link>
+        </p>
       </header>
 
       <section id="work" aria-labelledby="work-heading" className="mt-24 scroll-mt-10">

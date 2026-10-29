@@ -9,6 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const cases = await getCaseStudies()
   return [
     { url: base, changeFrequency: 'monthly', priority: 1 },
+    { url: `${base}/resume`, changeFrequency: 'monthly', priority: 0.9 },
     ...cases.map((cs) => ({ url: `${base}/work/${cs.slug}`, changeFrequency: 'monthly' as const, priority: 0.8 })),
   ]
 }
