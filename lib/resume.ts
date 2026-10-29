@@ -23,7 +23,7 @@ Led brand, product, and sales enablement strategy for American Express Global Co
 - Built positioning and messaging frameworks for two global payments products, Buyer Initiated Payments and One AP, each laddering to the Amex masterbrand.
 - Produced monthly competitive intelligence across nine major financial services brands for senior client marketers.
 
-Associate Strategist (contract), The Mix Global and AKQA, New York, NY. 2021 to 2023.
+Associate Strategist (contract), AKQA and The Mix Global, New York, NY. Summers of 2022 and 2023.
 - Led digital ethnography on Gen Z culture and consumption for Diageo and facilitated client workshops in New York and Phoenix. Shaped Verizon Prepaid's brand positioning and supported new business pitches. Additional clients: Maserati, McCormick Business Solutions.
 
 Digital Marketing Specialist, The Communications Group, Little Rock, AR. 2020 to 2021.

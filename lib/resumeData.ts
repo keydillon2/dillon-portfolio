@@ -49,9 +49,9 @@ export const resume = {
     },
     {
       title: 'Associate Strategist (contract)',
-      company: 'The Mix Global & AKQA',
+      company: 'AKQA & The Mix Global',
       place: 'New York',
-      years: '2021 to 2023',
+      years: 'Summers 2022 and 2023',
       focus: 'Cultural research and brand positioning.',
       clients: [
         { name: 'Diageo', slug: 'diageo-stages-not-ages' },
