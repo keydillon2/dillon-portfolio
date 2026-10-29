@@ -5,6 +5,7 @@ import "@fontsource-variable/source-serif-4/opsz.css";
 import "./globals.css";
 import { site, siteUrl } from "@/lib/site";
 import ChatBar from "./components/ChatBar";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
@@ -29,6 +30,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 <a className="text-ink underline decoration-rule underline-offset-4 hover:decoration-accent" href={`mailto:${site.email}`}>
                   {site.email}
                 </a>
+              </li>
+              <li>
+                <Link className="text-ink underline decoration-rule underline-offset-4 hover:decoration-accent" href="/resume">
+                  Resume
+                </Link>
               </li>
               <li>
                 <a
