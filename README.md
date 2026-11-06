@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# dillonkey.com
 
-## Getting Started
+The portfolio site of Dillon Key, brand strategist in New York. Live at https://www.dillonkey.com.
 
-First, run the development server:
+## Stack
+
+- **Next.js** (App Router) on **Vercel**, with a preview deployment for every pull request.
+- **Sanity** for case study content (Studio at `/studio`).
+- **Groq** (gpt-oss-120b) for the chat assistant at the bottom of every page.
+
+## Working on it
+
+Read [CLAUDE.md](CLAUDE.md) first. In short: `main` is the live site and only accepts reviewed pull requests; every change gets a preview; content edits in Sanity publish immediately.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm ci
+npm run dev      # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Checks that run on every pull request (and must pass):
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npx next typegen && npx tsc --noEmit
+npx eslint app lib sanity
+npx next build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Secrets (`GROQ_API_KEY`, and optionally `QUESTIONS_PASSWORD` and the Redis store) live in Vercel's environment variables, never in the repository.
 
-## Learn More
+## Security
 
-To learn more about Next.js, take a look at the following resources:
+See [SECURITY.md](SECURITY.md) to report a problem.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Rights
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The code and content are © Dillon Key. All rights reserved; no license is granted.
