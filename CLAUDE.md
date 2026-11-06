@@ -31,6 +31,21 @@ live site within a minute, whatever branch the code is on. So:
 - Scripts that write to Sanity (e.g. `sanity/seed/*`) write published
   content. Say so before running one, and get Dillon's OK.
 
+## Security and quality guardrails
+
+- GitHub runs CI (typecheck, lint, build), CodeQL, and dependency review on every
+  pull request. Don't ask Dillon to merge until they pass.
+- Dependabot opens weekly update PRs. Treat them like any other change: preview,
+  then merge on Dillon's go-ahead.
+- Workflows get read-only tokens by default and pin third-party actions to a
+  commit SHA (with the version in a comment). Keep it that way.
+- Secrets live only in Vercel environment variables. Never commit them, print them,
+  or put them in URLs. Dillon creates and pastes keys himself.
+- The chat assistant treats visitor text as untrusted: it may only answer from the
+  site content and resume, never take actions, and has token and rate limits.
+- New dependencies: check the package is real, maintained and widely used before
+  adding it.
+
 ## Before opening a pull request
 
 - `npx tsc --noEmit`, `npx eslint app lib sanity`, and `next build` pass.
