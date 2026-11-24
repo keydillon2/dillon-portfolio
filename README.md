@@ -25,7 +25,7 @@ npx eslint app lib sanity
 npx next build
 ```
 
-Secrets (`GROQ_API_KEY`, and optionally `QUESTIONS_PASSWORD` and the Redis store) live in Vercel's environment variables, never in the repository.
+Secrets (`ANTHROPIC_API_KEY` for the chat, `GROQ_API_KEY` as its fallback, and optionally `QUESTIONS_PASSWORD` and the Redis store) live in Vercel's environment variables, never in the repository.
 
 ## Security
 
