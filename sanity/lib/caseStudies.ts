@@ -46,6 +46,8 @@ export interface CaseStudy {
   execution?: string
   diagram?: Diagram
   coverImage?: SanityImage
+  cardImage?: SanityImage
+  skills?: string[]
   gallery?: (SanityImage & { _key: string })[]
 }
 
@@ -58,6 +60,8 @@ const FIELDS = `
   businessProblem, strategicInsight, framework, decisionProcess, execution,
   diagram,
   coverImage { ${IMAGE} },
+  cardImage { ${IMAGE} },
+  skills,
   gallery[] { _key, ${IMAGE} }
 `
 
