@@ -4,7 +4,9 @@ import "@fontsource-variable/schibsted-grotesk";
 import "@fontsource-variable/source-serif-4/opsz.css";
 import "./globals.css";
 import { site, siteUrl } from "@/lib/site";
-import ChatBar from "./components/ChatBar";
+import ChatBar, { type ChatCase } from "./components/ChatBar";
+import { getCaseStudies } from "@/sanity/lib/caseStudies";
+import { urlFor } from "@/sanity/lib/image";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -15,7 +17,7 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
@@ -49,8 +51,23 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             </ul>
           </div>
         </footer>
-        <ChatBar />
+        <ChatBar cases={await chatCases()} />
       </body>
     </html>
   );
+}
+
+/** The cases the chat can show as cards. */
+async function chatCases(): Promise<ChatCase[]> {
+  const all = await getCaseStudies().catch(() => [])
+  return all.map((cs) => {
+    const image = cs.cardImage?.asset ? cs.cardImage : cs.coverImage
+    return {
+      slug: cs.slug,
+      client: cs.client ?? cs.title,
+      title: cs.headline ?? cs.title,
+      skills: cs.skills ?? [],
+      thumb: image?.asset ? urlFor(image).width(480).height(270).fit('crop').auto('format').url() : null,
+    }
+  })
 }
