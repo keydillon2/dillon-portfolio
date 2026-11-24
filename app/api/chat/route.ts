@@ -32,7 +32,7 @@ async function context() {
 }
 
 export async function POST(request: Request) {
-  if (!process.env.ANTHROPIC_API_KEY && !process.env.GROQ_API_KEY) {
+  if (!claudeKey() && !process.env.GROQ_API_KEY) {
     return new Response('The chat isn’t set up yet.', { status: 503 })
   }
 
@@ -78,9 +78,15 @@ export async function POST(request: Request) {
   })
 }
 
+// The key is stored in Vercel as Claude_API_Key (secret names can't be changed);
+// ANTHROPIC_API_KEY is the conventional name, accepted too.
+function claudeKey() {
+  return process.env.ANTHROPIC_API_KEY || process.env.Claude_API_Key
+}
+
 /** Claude Haiku, streamed. Returns null (so Groq takes over) on any failure. */
 async function askClaude(system: string, turns: Turn[]) {
-  const key = process.env.ANTHROPIC_API_KEY
+  const key = claudeKey()
   if (!key) return null
   const upstream = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
