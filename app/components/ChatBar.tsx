@@ -223,9 +223,13 @@ export default function ChatBar({ cases }: { cases: ChatCase[] }) {
   const fallback = here ? `Ask about the ${here.client} work` : 'Ask about Dillon’s work'
   const placeholder = useTypedPlaceholder(!here && !focused && !input && !open, fallback)
 
+  // When a question is asked, bring it to the top of the panel; the answer fills in below it.
+  const asked = turns.filter((t) => t.role === 'user').length
   useEffect(() => {
-    scroller.current?.scrollTo({ top: scroller.current.scrollHeight, behavior: 'smooth' })
-  }, [turns])
+    const box = scroller.current
+    const latest = box?.querySelector<HTMLElement>('[data-question]:last-of-type')
+    if (box && latest) box.scrollTo({ top: latest.offsetTop - 8, behavior: 'smooth' })
+  }, [asked])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -342,7 +346,7 @@ export default function ChatBar({ cases }: { cases: ChatCase[] }) {
               </div>
             </div>
 
-            <div ref={scroller} className="min-h-0 flex-1 overflow-y-auto px-5 pb-5 sm:px-6" aria-live="polite">
+            <div ref={scroller} className="relative min-h-0 flex-1 overflow-y-auto px-5 pb-5 sm:px-6" aria-live="polite">
               {turns.length === 0 ? (
                 <div className="chat-fade pt-2 pb-2">
                   <p className="max-w-[22ch] text-[1.75rem] leading-[1.1] font-semibold tracking-[-0.025em] text-balance sm:text-[2.125rem]">
@@ -387,7 +391,7 @@ export default function ChatBar({ cases }: { cases: ChatCase[] }) {
                 <div className="space-y-10 pt-2">
                   {turns.map((t, i) =>
                     t.role === 'user' ? (
-                      <p key={i} className="chat-fade text-[1.375rem] leading-[1.15] font-semibold tracking-[-0.02em] text-balance sm:text-[1.625rem]">
+                      <p key={i} data-question className="chat-fade text-[1.375rem] leading-[1.15] font-semibold tracking-[-0.02em] text-balance sm:text-[1.625rem]">
                         {t.content}
                       </p>
                     ) : (
