@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import Logo from '@/app/components/Logo'
 import { site } from '@/lib/site'
 import { resume } from '@/lib/resumeData'
 
@@ -22,17 +23,17 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export default function ResumePage() {
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 pt-10 pb-24">
-      <nav aria-label="Breadcrumb" className="text-meta">
-        <Link href="/" className="text-muted underline-offset-4 hover:text-ink hover:underline">
-          {site.name}
+    <main className="mx-auto w-full max-w-6xl px-6 pt-10 pb-24">
+      <nav aria-label="Breadcrumb" className="flex items-end text-meta">
+        <Link href="/" className="transition-opacity hover:opacity-75">
+          <Logo size="sm" />
         </Link>
         <span aria-hidden className="mx-2 text-rule">/</span>
         <span className="text-ink">Resume</span>
       </nav>
 
       <header className="mt-16 sm:mt-24">
-        <h1 className="text-[2.5rem] leading-none font-semibold tracking-[-0.03em] sm:text-name">{site.name}</h1>
+        <h1 className="text-[2.5rem] leading-none font-semibold tracking-[-0.03em] sm:text-name">Resume</h1>
         <p className="mt-4 text-[1.125rem]">
           {site.role}, Prosek Partners <span className="text-muted">· New York</span>
         </p>

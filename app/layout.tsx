@@ -20,7 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         <div className="flex-1">{children}</div>
-        <footer className="mx-auto w-full max-w-5xl px-6 pb-32">
+        <footer className="mx-auto w-full max-w-6xl px-6 pb-32">
           <div className="flex flex-col gap-2 border-t border-rule pt-8 text-meta text-muted sm:flex-row sm:justify-between">
             <p>
               {site.name}, {site.role}, New York
