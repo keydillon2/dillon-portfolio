@@ -68,7 +68,11 @@ export async function POST(request: Request) {
   after(() => logQuestion(question.content.trim(), page))
 
   const system = await context()
-  const answer = (await askClaude(system, turns)) ?? (await askGroq(system, turns))
+  // Kept separate from the cached context so every page shares one cache entry.
+  const where = page.startsWith('/work/')
+    ? `The visitor is reading the case study at ${page} right now. Don't link to that page or suggest they read it; they are already there. You may still link other cases.`
+    : `The visitor is on the page ${page}.`
+  const answer = (await askClaude(system, where, turns)) ?? (await askGroq(`${system}\n\n${where}`, turns))
   if (answer instanceof Response) return answer
   if (!answer) {
     return new Response('The assistant is unavailable right now. Please email dillon.key@gmail.com.', { status: 502 })
@@ -85,7 +89,7 @@ function claudeKey() {
 }
 
 /** Claude Haiku, streamed. Returns null (so Groq takes over) on any failure. */
-async function askClaude(system: string, turns: Turn[]) {
+async function askClaude(system: string, where: string, turns: Turn[]) {
   const key = claudeKey()
   if (!key) return null
   const upstream = await fetch('https://api.anthropic.com/v1/messages', {
@@ -95,7 +99,10 @@ async function askClaude(system: string, turns: Turn[]) {
       model: CLAUDE_MODEL,
       max_tokens: MAX_ANSWER_TOKENS,
       // The site context is identical for every visitor, so cache it.
-      system: [{ type: 'text', text: system, cache_control: { type: 'ephemeral' } }],
+      system: [
+        { type: 'text', text: system, cache_control: { type: 'ephemeral' } },
+        { type: 'text', text: where },
+      ],
       messages: turns,
       stream: true,
       thinking: { type: 'disabled' },

@@ -124,12 +124,14 @@ function citedSlugs(text: string) {
 }
 
 // Render the assistant's light Markdown: [links](/path) and **bold**.
-function rich(text: string): ReactNode[] {
+function rich(text: string, current?: string): ReactNode[] {
   const parts = text.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*)/g)
   return parts.map((p, i) => {
     const link = p.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
     if (link) {
       const [, label, href] = link
+      // The visitor is already on this page, so don't link it.
+      if (href === current) return <Fragment key={i}>{label}</Fragment>
       return href.startsWith('/') ? (
         <Link key={i} href={href} className="text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent">
           {label}
@@ -395,7 +397,7 @@ export default function ChatBar({ cases }: { cases: ChatCase[] }) {
                         {t.content}
                       </p>
                     ) : (
-                      <Answer key={i} raw={t.content} bySlug={bySlug} />
+                      <Answer key={i} raw={t.content} bySlug={bySlug} current={pathname ?? undefined} />
                     ),
                   )}
                   {!busy && lastAnswer && lastAnswer.followups.length > 0 && (
@@ -463,15 +465,17 @@ export default function ChatBar({ cases }: { cases: ChatCase[] }) {
 }
 
 /** One answer: the text as it streams, then cards for the cases it cites. */
-function Answer({ raw, bySlug }: { raw: string; bySlug: Map<string, ChatCase> }) {
+function Answer({ raw, bySlug, current }: { raw: string; bySlug: Map<string, ChatCase>; current?: string }) {
   const { text } = parse(raw)
   if (!text) return <Typing />
+  // No card for the case the visitor is already reading.
   const cards = citedSlugs(text)
+    .filter((s) => `/work/${s}` !== current)
     .map((s) => bySlug.get(s))
     .filter((c): c is ChatCase => Boolean(c))
   return (
     <div className="chat-fade">
-      <p className="max-w-[62ch] whitespace-pre-line text-pretty leading-[1.65]">{rich(text)}</p>
+      <p className="max-w-[62ch] whitespace-pre-line text-pretty leading-[1.65]">{rich(text, current)}</p>
       {cards.length > 0 && (
         <div className="-mx-5 mt-5 flex gap-3 overflow-x-auto px-5 pb-1 sm:-mx-6 sm:px-6">
           {cards.map((c) => (
