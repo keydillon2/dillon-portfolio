@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import CaseRow from './components/CaseRow'
+import Logo from './components/Logo'
 import { getCaseStudies, type CaseStudy } from '@/sanity/lib/caseStudies'
 import { urlFor } from '@/sanity/lib/image'
-import { site } from '@/lib/site'
 import HashRedirect from './components/HashRedirect'
 
 // Revalidate at most once a minute so Sanity edits surface without a redeploy.
@@ -24,8 +24,8 @@ export default async function Home() {
       <HashRedirect slugs={caseStudies.map((cs) => cs.slug)} />
 
       <header className="max-w-3xl">
-        <h1 className="text-[2.5rem] leading-none font-semibold tracking-[-0.03em] sm:text-name">
-          {site.name}
+        <h1>
+          <Logo />
         </h1>
         <div className="mt-8 max-w-[62ch] space-y-4 text-[1.125rem] leading-[1.6]">
           <p>
