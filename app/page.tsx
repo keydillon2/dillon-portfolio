@@ -4,24 +4,23 @@ import CaseRow from './components/CaseRow'
 import { getCaseStudies, type CaseStudy } from '@/sanity/lib/caseStudies'
 import { urlFor } from '@/sanity/lib/image'
 import { site } from '@/lib/site'
-import Figures from './components/Figures'
 import HashRedirect from './components/HashRedirect'
 
 // Revalidate at most once a minute so Sanity edits surface without a redeploy.
 export const revalidate = 60
 
-/** The card image (or the cover), cropped to the card's 16:9 frame. */
+/** The card image, or the cover image when there isn't one. */
 function coverSrc(cs: CaseStudy) {
   const image = cs.cardImage?.asset ? cs.cardImage : cs.coverImage
   if (!image?.asset) return null
-  return urlFor(image).width(1600).height(900).fit('crop').auto('format').url()
+  return urlFor(image).width(1600).auto('format').url()
 }
 
 export default async function Home() {
   const caseStudies = await getCaseStudies()
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 pt-20 pb-24 sm:pt-28">
+    <main className="mx-auto w-full max-w-6xl px-6 pt-20 pb-24 sm:pt-28">
       <HashRedirect slugs={caseStudies.map((cs) => cs.slug)} />
 
       <header className="max-w-3xl">
@@ -36,13 +35,6 @@ export default async function Home() {
             (VC, growth, PE, RE) &mdash; my work clarifies complexity to unlock
             audience insight, shape strategic decisions, and create commercial
             value.
-          </p>
-          <p className="text-muted">
-            I started in client services and came to strategy through VCU
-            Brandcenter. Since then I&rsquo;ve worked across small, medium, and
-            global agencies with brands like Diageo, American Express, and
-            Apollo Global Management, mostly across finance, enterprise tech,
-            and healthcare.
           </p>
         </div>
         <p className="mt-6 text-meta">
@@ -90,7 +82,7 @@ export default async function Home() {
                           src={coverSrc(cs)!}
                           alt=""
                           fill
-                          sizes="(min-width: 1024px) 30rem, (min-width: 768px) 50vw, 100vw"
+                          sizes="(min-width: 1152px) 34rem, (min-width: 768px) 50vw, 100vw"
                           className="object-cover"
                         />
                       ) : (
@@ -106,10 +98,14 @@ export default async function Home() {
                       {cs.reframe && (
                         <p className="mt-3 text-[0.9375rem] leading-[1.55] text-muted text-pretty">{cs.reframe}</p>
                       )}
-                      {cs.figures?.length ? (
-                        <div className="mt-5">
-                          <Figures figures={cs.figures.slice(0, 3)} compact />
-                        </div>
+                      {cs.skills?.length ? (
+                        <ul className="mt-5 flex flex-wrap gap-x-2 gap-y-1.5" aria-label="Skills">
+                          {cs.skills.map((skill) => (
+                            <li key={skill} className="rounded-full border border-rule px-2.5 py-0.5 text-[0.75rem] leading-5 text-muted">
+                              {skill}
+                            </li>
+                          ))}
+                        </ul>
                       ) : null}
                     </div>
                   </div>

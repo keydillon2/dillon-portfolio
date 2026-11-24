@@ -74,6 +74,15 @@ export const caseStudy = defineType({
       description: 'What you personally led or delivered. Use "I".',
     }),
     defineField({
+      name: 'skills',
+      title: 'Skills',
+      type: 'array',
+      description: 'Short tags shown on the home page card, e.g. Brand positioning.',
+      group: 'summary',
+      of: [defineArrayMember({ type: 'string' })],
+      options: { layout: 'tags' },
+    }),
+    defineField({
       name: 'figures',
       title: 'Figures',
       type: 'array',

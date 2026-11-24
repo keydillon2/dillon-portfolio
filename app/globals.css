@@ -234,11 +234,9 @@ body {
   color: var(--paper);
 }
 
-/* Two-column layout: a taller frame so the copy fits a half-width card. */
-.case-card--compact .case-card-sizer { aspect-ratio: 4 / 3; }
+/* Two-column layout: images keep their 16:9 frame; tighter padding. */
 .case-card--compact .case-card-copy { padding: 1.5rem; }
 .case-card--compact .case-card-type { padding: 1.5rem; font-size: clamp(1.25rem, 2.2vw, 1.75rem); }
 @media (hover: none) {
-  .case-card--compact .case-card-cover { aspect-ratio: 4 / 3; }
   .case-card--compact .case-card-copy { padding: 1rem 0 0; }
 }
