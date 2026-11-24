@@ -147,3 +147,89 @@ body {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: none; }
 }
+
+/*
+ * Home page case cards. The image and the copy share one frame: the image
+ * sits on top, and hovering the row (or focusing its link) fades the image
+ * out to reveal the copy. The frame is at least 16:9 and grows with the copy.
+ * Devices without hover show the image with the copy underneath.
+ */
+.case-card {
+  position: relative;
+  display: grid;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--wash);
+}
+.case-card > .case-card-sizer,
+.case-card > .case-card-copy {
+  grid-area: 1 / 1;
+}
+.case-card-sizer {
+  aspect-ratio: 16 / 9;
+}
+.case-card-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--panel);
+  transition: opacity 450ms ease;
+}
+.case-card-type {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 1.75rem 2rem;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  line-height: 1.12;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.case-card-copy {
+  align-self: center;
+  padding: 1.75rem 2rem;
+  opacity: 0;
+  transition: opacity 450ms ease;
+}
+@media (hover: hover) {
+  .group:hover .case-card-cover,
+  .case-card:focus-within .case-card-cover {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .group:hover .case-card-copy,
+  .case-card:focus-within .case-card-copy {
+    opacity: 1;
+  }
+}
+@media (hover: none) {
+  .case-card {
+    display: block;
+    background: transparent;
+    border-radius: 0;
+  }
+  .case-card-sizer,
+  .case-card-cover {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .case-card-cover {
+    inset: 0 0 auto 0;
+    aspect-ratio: 16 / 9;
+  }
+  .case-card-copy {
+    opacity: 1;
+    padding: 1.25rem 0 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .case-card-cover,
+  .case-card-copy {
+    transition: none;
+  }
+}
+/* Cases without images get a typographic cover instead. */
+.case-card-cover:has(.case-card-type) {
+  background: var(--ink);
+  color: var(--paper);
+}

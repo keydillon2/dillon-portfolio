@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import { client } from './client'
+import { HSFT_PREVIEW } from '../preview/hsft'
 
 export interface SanityImage {
   asset?: { _id?: string; metadata?: { dimensions?: { width: number; height: number } } }
@@ -70,8 +71,18 @@ const ALL = `*[_type == "caseStudy" && defined(slug.current)] | order(publishedA
  */
 export async function getCaseStudies(): Promise<CaseStudy[]> {
   const fixture = process.env.PORTFOLIO_FIXTURE
-  if (fixture) return JSON.parse(await readFile(fixture, 'utf8')) as CaseStudy[]
-  return client.fetch<CaseStudy[]>(ALL)
+  const all = fixture
+    ? (JSON.parse(await readFile(fixture, 'utf8')) as CaseStudy[])
+    : await client.fetch<CaseStudy[]>(ALL)
+  return withPreview(all)
+}
+
+// PREVIEW ONLY: on Vercel preview deployments, show cases still under review.
+// Never runs in production. Remove once the case is published in Sanity.
+function withPreview(all: CaseStudy[]): CaseStudy[] {
+  if (process.env.VERCEL_ENV !== 'preview' && process.env.COPY_PREVIEW !== '1') return all
+  if (all.some((cs) => cs.slug === HSFT_PREVIEW.slug)) return all
+  return [HSFT_PREVIEW, ...all]
 }
 
 /** One case study plus the next one in the list (wrapping around), for the "next case" link. */
