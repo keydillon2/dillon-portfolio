@@ -1,10 +1,29 @@
 import type { CaseStudy } from '@/sanity/lib/caseStudies'
-import { RESUME } from '@/lib/resume'
+import { resume } from '@/lib/resumeData'
 import { site } from '@/lib/site'
 
-const BIO = `I'm a Senior Strategist at Prosek Partners in New York. I work with brands that have complex products and multiple stakeholders. From global asset managers, family offices, and private market firms (VC, growth, PE, RE), my work clarifies complexity to unlock audience insight, shape strategic decisions, and create commercial value.
+const BIO = `I'm a Senior Strategist at Prosek Partners in New York. I work with brands that have complex products and multiple stakeholders. From global asset managers, family offices, and private market firms (VC, growth, PE, RE), my work clarifies complexity to unlock audience insight, shape strategic decisions, and create commercial value. I came to strategy through VCU Brandcenter.`
 
-I started in client services and came to strategy through VCU Brandcenter. Since then I've worked across small, medium, and global agencies with brands like Diageo, American Express, and Apollo Global Management, mostly across finance, enterprise tech, and healthcare.`
+/** The resume page, as plain text. One source of truth for the page and the chat. */
+function resumeText() {
+  const roles = resume.roles.map((r) =>
+    [
+      `${r.title}, ${r.company} (${r.years}, ${r.place}). ${r.focus}`,
+      ...r.work.map((w) => `- ${w.client} (${w.tag}): ${w.text}${w.slug ? ` [case: /work/${w.slug}]` : ''}`),
+      r.more,
+    ]
+      .filter(Boolean)
+      .join('\n'),
+  )
+  return [
+    `Summary: ${resume.summary}`,
+    `What he does: ${resume.practice.map((p) => `${p.label}: ${p.text} (e.g. ${p.examples})`).join(' ')}`,
+    `Experience:\n${roles.join('\n\n')}`,
+    `Education: ${resume.education.map((e) => `${e.degree}, ${e.school} (${e.years})`).join('; ')}`,
+    `Skills: ${resume.skills.map((s) => `${s.label}: ${s.items}`).join('. ')}`,
+    'The full resume is at /resume.',
+  ].join('\n\n')
+}
 
 function caseText(cs: CaseStudy) {
   const lines = [
@@ -13,6 +32,7 @@ function caseText(cs: CaseStudy) {
     cs.brief && `The brief: ${cs.brief}`,
     cs.reframe && `The reframe: ${cs.reframe}`,
     cs.role && `Dillon's role: ${cs.role}`,
+    cs.skills?.length && `Skills: ${cs.skills.join(', ')}`,
     cs.contribution && `Contribution: ${cs.contribution}`,
     cs.figures?.length && `Figures: ${cs.figures.map((f) => `${f.value} (${f.label})`).join('; ')}`,
     cs.businessProblem && `Problem: ${cs.businessProblem}`,
@@ -32,6 +52,8 @@ HOW TO ANSWER
 - Speak as Dillon's assistant, in the third person ("Dillon led...", "his work..."). Never pretend to be Dillon.
 - Use only the facts below. If the answer isn't there, say you don't know and suggest emailing Dillon at ${site.email}. Never invent clients, results, numbers, dates, or opinions.
 - Keep answers short: two to four sentences, or a few short bullets when listing. Plain, specific language.
+- When someone asks whether Dillon fits a role, lay out the most relevant evidence from his work and let them judge. Don't grade his seniority, call a role a "step up," or volunteer gaps or weaknesses. Never overstate his role either: say exactly what the facts say he did.
+- Describe his contributions only as the resume and case studies state them. Don't name or describe colleagues, bosses, or other people's roles.
 - When a case study is relevant, link it with a Markdown link using its page path, for example [the Apollo case](/work/apollo-audience-segmentation).
 - Don't use em-dashes. Don't use "it's not X, it's Y" phrasing. Don't use filler like "actually" or "great question."
 - For questions about salary, availability, or interviews, say Dillon is happy to talk and give his email. Don't share a phone number.
@@ -43,7 +65,7 @@ ABOUT DILLON (home page, in his words)
 ${BIO}
 
 RESUME
-${RESUME}
+${resumeText()}
 
 CASE STUDIES ON THE SITE
 ${cases.map(caseText).join('\n\n')}`

@@ -6,11 +6,18 @@ import { logQuestion, underLimit } from '@/lib/chat/store'
 
 /*
  * The portfolio chat. Sends the visitor's question, with the site content and
- * resume as context, to gpt-oss-120b on Groq, and streams the answer back as
- * plain text.
+ * resume as context, to Claude Haiku (falling back to gpt-oss-120b on Groq if
+ * Claude is unavailable or the monthly spend limit is reached), and streams
+ * the answer back as plain text.
+ *
+ * Costs: the site context is sent as a cached system prompt, so follow-up
+ * questions within five minutes pay a tenth of the input price for it. The
+ * monthly cap is the spend limit set in the Claude Console, not in this code.
  */
 
-const MODEL = 'openai/gpt-oss-120b'
+const CLAUDE_MODEL = 'claude-haiku-5-5'
+const GROQ_MODEL = 'openai/gpt-oss-120b'
+const MAX_ANSWER_TOKENS = 700
 const MAX_QUESTION = 500
 const MAX_TURNS = 8
 
@@ -25,8 +32,9 @@ async function context() {
 }
 
 export async function POST(request: Request) {
-  const key = process.env.GROQ_API_KEY
-  if (!key) return new Response('The chat isn’t set up yet.', { status: 503 })
+  if (!claudeKey() && !process.env.GROQ_API_KEY) {
+    return new Response('The chat isn’t set up yet.', { status: 503 })
+  }
 
   let body: { messages?: Turn[]; page?: string }
   try {
@@ -38,6 +46,9 @@ export async function POST(request: Request) {
     .filter((m) => (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
     .slice(-MAX_TURNS)
     .map((m) => ({ role: m.role, content: m.content.slice(0, m.role === 'user' ? MAX_QUESTION : 2000) }))
+    .filter((m) => m.content.trim())
+  // The conversation must open with the visitor.
+  while (turns[0]?.role === 'assistant') turns.shift()
   const question = turns.at(-1)
   if (!question || question.role !== 'user' || !question.content.trim()) {
     return new Response('Bad request', { status: 400 })
@@ -56,12 +67,60 @@ export async function POST(request: Request) {
   const page = typeof body.page === 'string' ? body.page.slice(0, 100) : '/'
   after(() => logQuestion(question.content.trim(), page))
 
+  const system = await context()
+  const answer = (await askClaude(system, turns)) ?? (await askGroq(system, turns))
+  if (answer instanceof Response) return answer
+  if (!answer) {
+    return new Response('The assistant is unavailable right now. Please email dillon.key@gmail.com.', { status: 502 })
+  }
+  return new Response(answer, {
+    headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
+  })
+}
+
+// The key is stored in Vercel as Claude_API_Key (secret names can't be changed);
+// ANTHROPIC_API_KEY is the conventional name, accepted too.
+function claudeKey() {
+  return process.env.ANTHROPIC_API_KEY || process.env.Claude_API_Key
+}
+
+/** Claude Haiku, streamed. Returns null (so Groq takes over) on any failure. */
+async function askClaude(system: string, turns: Turn[]) {
+  const key = claudeKey()
+  if (!key) return null
+  const upstream = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: CLAUDE_MODEL,
+      max_tokens: MAX_ANSWER_TOKENS,
+      // The site context is identical for every visitor, so cache it.
+      system: [{ type: 'text', text: system, cache_control: { type: 'ephemeral' } }],
+      messages: turns,
+      stream: true,
+      thinking: { type: 'disabled' },
+      output_config: { effort: 'low' },
+    }),
+  }).catch(() => null)
+  if (!upstream?.ok || !upstream.body) {
+    console.error('claude upstream error', upstream?.status, await upstream?.text().catch(() => ''))
+    return null
+  }
+  return textStream(upstream.body, (event) =>
+    event.type === 'content_block_delta' && event.delta?.type === 'text_delta' ? event.delta.text : undefined,
+  )
+}
+
+/** gpt-oss-120b on Groq's free tier, the fallback. */
+async function askGroq(system: string, turns: Turn[]) {
+  const key = process.env.GROQ_API_KEY
+  if (!key) return null
   const upstream = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: MODEL,
-      messages: [{ role: 'system', content: await context() }, ...turns],
+      model: GROQ_MODEL,
+      messages: [{ role: 'system', content: system }, ...turns],
       stream: true,
       temperature: 0.3,
       max_completion_tokens: 600,
@@ -69,7 +128,7 @@ export async function POST(request: Request) {
     }),
   })
   if (!upstream.ok || !upstream.body) {
-    console.error('chat upstream error', upstream.status, await upstream.text().catch(() => ''))
+    console.error('groq upstream error', upstream.status, await upstream.text().catch(() => ''))
     const busy = upstream.status === 429
     return new Response(
       busy
@@ -78,22 +137,28 @@ export async function POST(request: Request) {
       { status: busy ? 503 : 502 },
     )
   }
+  return textStream(upstream.body, (event) => event.choices?.[0]?.delta?.content)
+}
 
-  // Turn the server-sent events into a plain text stream of answer tokens.
+/** Turns a server-sent event stream into a plain text stream of answer tokens. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function textStream(body: ReadableStream<Uint8Array>, pick: (event: any) => string | undefined) {
   const decoder = new TextDecoder()
   const encoder = new TextEncoder()
   let buffer = ''
-  const stream = upstream.body.pipeThrough(
+  return body.pipeThrough(
     new TransformStream<Uint8Array, Uint8Array>({
       transform(chunk, controller) {
         buffer += decoder.decode(chunk, { stream: true })
         const lines = buffer.split('\n')
         buffer = lines.pop() ?? ''
         for (const line of lines) {
-          const data = line.replace(/^data:\s*/, '').trim()
-          if (!data || data === '[DONE]' || !line.startsWith('data:')) continue
+          if (!line.startsWith('data:')) continue
+          const data = line.slice(5).trim()
+          if (!data || data === '[DONE]') continue
           try {
-            const text = JSON.parse(data).choices?.[0]?.delta?.content
+            const text = pick(JSON.parse(data))
+            // House style: plain hyphens, and no em dashes.
             if (text) controller.enqueue(encoder.encode(text.replace(/[\u2010\u2011]/g, '-').replace(/\s*\u2014\s*/g, ', ')))
           } catch {
             // Ignore keep-alives and partial lines.
@@ -102,7 +167,4 @@ export async function POST(request: Request) {
       },
     }),
   )
-  return new Response(stream, {
-    headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' },
-  })
 }
