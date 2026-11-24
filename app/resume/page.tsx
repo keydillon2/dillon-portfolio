@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Fragment } from 'react'
 import { site } from '@/lib/site'
-import { resume, type Client } from '@/lib/resumeData'
+import { resume } from '@/lib/resumeData'
 
 export const metadata: Metadata = {
   title: `Resume — ${site.name}`,
@@ -11,16 +10,6 @@ export const metadata: Metadata = {
 }
 
 const LINK = 'underline decoration-rule underline-offset-4 hover:text-accent hover:decoration-accent'
-
-function ClientName({ client }: { client: Client }) {
-  return client.slug ? (
-    <Link href={`/work/${client.slug}`} className={LINK}>
-      {client.name}
-    </Link>
-  ) : (
-    <>{client.name}</>
-  )
-}
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -59,43 +48,51 @@ export default function ResumePage() {
       </header>
 
       <div className="mt-16 space-y-10">
-        <Section title="Highlights">
-          <ul className="space-y-4">
-            {resume.highlights.map((h) => (
-              <li key={h.client}>
-                <p className="font-medium">
-                  <ClientName client={{ name: h.client, slug: h.slug }} />
-                </p>
-                <p className="mt-1 max-w-[60ch] text-muted text-pretty">{h.text}</p>
+        <Section title="What I do">
+          <ul className="grid gap-8 sm:grid-cols-3 sm:gap-6">
+            {resume.practice.map((p) => (
+              <li key={p.label}>
+                <p className="font-medium">{p.label}</p>
+                <p className="mt-1 text-muted text-pretty">{p.text}</p>
+                <p className="mt-2 text-meta text-muted">{p.examples}</p>
               </li>
             ))}
           </ul>
         </Section>
 
         <Section title="Experience">
-          <ol className="space-y-7">
+          <ol className="space-y-12">
             {resume.roles.map((r) => (
-              <li key={r.company + r.years} className="grid gap-1 sm:grid-cols-[1fr_auto] sm:gap-x-6">
-                <p>
-                  <span className="font-medium">{r.title}</span>, {r.company}
-                </p>
-                <p className="text-meta text-muted sm:text-right sm:pt-[0.15rem]">{r.years}</p>
-                <p className="max-w-[60ch] text-muted sm:col-span-2">
-                  {r.focus}
-                  {r.clients?.length ? (
-                    <>
-                      {' '}
-                      <span className="text-ink">
-                        {r.clients.map((c, i) => (
-                          <Fragment key={c.name}>
-                            {i > 0 && ', '}
-                            <ClientName client={c} />
-                          </Fragment>
-                        ))}
-                      </span>
-                    </>
-                  ) : null}
-                </p>
+              <li key={r.company + r.years}>
+                <div className="grid gap-1 sm:grid-cols-[1fr_auto] sm:gap-x-6">
+                  <p className="text-[1.125rem]">
+                    <span className="font-medium">{r.title}</span>, {r.company}
+                  </p>
+                  <p className="text-meta text-muted sm:text-right sm:pt-[0.2rem]">
+                    {r.years} · {r.place}
+                  </p>
+                </div>
+                <p className="mt-1 max-w-[60ch] text-muted">{r.focus}</p>
+                <ul className="mt-5 space-y-5">
+                  {r.work.map((w) => (
+                    <li key={w.client + w.tag} className="border-l-2 border-rule pl-4">
+                      <p className="text-meta">
+                        <span className="font-medium text-ink">
+                          {w.slug ? (
+                            <Link href={`/work/${w.slug}`} className={LINK}>
+                              {w.client}
+                            </Link>
+                          ) : (
+                            w.client
+                          )}
+                        </span>
+                        <span className="text-muted"> · {w.tag}</span>
+                      </p>
+                      <p className="mt-1 max-w-[64ch] text-pretty">{w.text}</p>
+                    </li>
+                  ))}
+                </ul>
+                {r.more && <p className="mt-4 text-meta text-muted">{r.more}</p>}
               </li>
             ))}
           </ol>
@@ -114,10 +111,10 @@ export default function ResumePage() {
           </ul>
         </Section>
 
-        <Section title="Capabilities">
+        <Section title="Skills">
           <dl className="space-y-3">
-            {resume.capabilities.map((c) => (
-              <div key={c.label} className="sm:grid sm:grid-cols-[9rem_1fr] sm:gap-4">
+            {resume.skills.map((c) => (
+              <div key={c.label} className="sm:grid sm:grid-cols-[11rem_1fr] sm:gap-4">
                 <dt className="font-medium">{c.label}</dt>
                 <dd className="text-muted">{c.items}</dd>
               </div>
