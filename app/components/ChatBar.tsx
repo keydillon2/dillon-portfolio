@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { site } from '@/lib/site'
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react'
 
 type Turn = { role: 'user' | 'assistant'; content: string }
@@ -130,9 +131,13 @@ function rich(text: string, current?: string): ReactNode[] {
     const link = p.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
     if (link) {
       const [, label, href] = link
-      // The visitor is already on this page, so don't link it.
-      if (href === current) return <Fragment key={i}>{label}</Fragment>
-      return href.startsWith('/') ? (
+      // Links come from model output, so only two kinds are clickable: a page
+      // on this site (a single leading slash) or Dillon's LinkedIn profile.
+      // Anything else, or the page the visitor is already on, shows as text.
+      const internal = /^\/(?!\/)[\w\-/#?=&.]*$/.test(href)
+      const external = href.replace(/\/$/, '') === site.linkedin.replace(/\/$/, '')
+      if ((!internal && !external) || href === current) return <Fragment key={i}>{label}</Fragment>
+      return internal ? (
         <Link key={i} href={href} className="text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent">
           {label}
         </Link>
