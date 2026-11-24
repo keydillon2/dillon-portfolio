@@ -66,12 +66,12 @@ export default async function Home() {
             .
           </p>
         ) : (
-          <ol className="mt-4 border-t border-rule">
+          <ol className="mt-6 grid gap-x-8 gap-y-14 md:grid-cols-2">
             {caseStudies.map((cs) => (
-              <li key={cs._id} className="border-b border-rule">
+              <li key={cs._id} className="flex">
                 <CaseRow
                   href={`/work/${cs.slug}`}
-                  className="group grid gap-4 py-10 md:grid-cols-[13rem_1fr] md:gap-10"
+                  className="group flex w-full flex-col gap-4"
                 >
                   <div className="text-meta">
                     <p className="font-medium text-ink">{cs.client}</p>
@@ -82,7 +82,7 @@ export default async function Home() {
                     focusing the link with a keyboard) fades it out to reveal it.
                     On touch screens the copy sits under the image instead.
                   */}
-                  <div className="case-card min-w-0">
+                  <div className="case-card case-card--compact min-w-0 flex-1">
                     <div className="case-card-sizer" aria-hidden />
                     <div className="case-card-cover" aria-hidden>
                       {coverSrc(cs) ? (
@@ -90,7 +90,7 @@ export default async function Home() {
                           src={coverSrc(cs)!}
                           alt=""
                           fill
-                          sizes="(min-width: 1024px) 46rem, (min-width: 768px) 70vw, 100vw"
+                          sizes="(min-width: 1024px) 30rem, (min-width: 768px) 50vw, 100vw"
                           className="object-cover"
                         />
                       ) : (
@@ -98,16 +98,16 @@ export default async function Home() {
                       )}
                     </div>
                     <div className="case-card-copy">
-                      <p className="text-[1.375rem] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[1.75rem] text-balance">
+                      <p className="text-[1.25rem] leading-[1.2] font-semibold tracking-[-0.02em] text-balance">
                         <Link href={`/work/${cs.slug}`} className="case-row" draggable={false}>
                           {cs.headline ?? cs.title}
                         </Link>
                       </p>
                       {cs.reframe && (
-                        <p className="mt-3 max-w-[60ch] text-muted text-pretty">{cs.reframe}</p>
+                        <p className="mt-3 text-[0.9375rem] leading-[1.55] text-muted text-pretty">{cs.reframe}</p>
                       )}
                       {cs.figures?.length ? (
-                        <div className="mt-6">
+                        <div className="mt-5">
                           <Figures figures={cs.figures.slice(0, 3)} compact />
                         </div>
                       ) : null}
