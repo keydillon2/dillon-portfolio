@@ -150,7 +150,7 @@ body {
 
 /*
  * Home page case cards. The image and the copy share one frame: the image
- * sits on top, and hovering the row (or focusing its link) fades the image
+ * sits on top, and hovering the image (or focusing its link) fades the image
  * out to reveal the copy. The frame is at least 16:9 and grows with the copy.
  * Devices without hover show the image with the copy underneath.
  */
@@ -192,12 +192,12 @@ body {
   transition: opacity 450ms ease;
 }
 @media (hover: hover) {
-  .group:hover .case-card-cover,
+  .case-card:hover .case-card-cover,
   .case-card:focus-within .case-card-cover {
     opacity: 0;
     pointer-events: none;
   }
-  .group:hover .case-card-copy,
+  .case-card:hover .case-card-copy,
   .case-card:focus-within .case-card-copy {
     opacity: 1;
   }

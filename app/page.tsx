@@ -10,10 +10,11 @@ import HashRedirect from './components/HashRedirect'
 // Revalidate at most once a minute so Sanity edits surface without a redeploy.
 export const revalidate = 60
 
-/** The case's cover image, cropped to the card's 16:9 frame. */
+/** The card image (or the cover), cropped to the card's 16:9 frame. */
 function coverSrc(cs: CaseStudy) {
-  if (!cs.coverImage?.asset) return null
-  return urlFor(cs.coverImage).width(1600).height(900).fit('crop').auto('format').url()
+  const image = cs.cardImage?.asset ? cs.cardImage : cs.coverImage
+  if (!image?.asset) return null
+  return urlFor(image).width(1600).height(900).fit('crop').auto('format').url()
 }
 
 export default async function Home() {
@@ -77,8 +78,8 @@ export default async function Home() {
                     {cs.headline && <p className="text-muted">{cs.title}</p>}
                   </div>
                   {/*
-                    The preview image covers the copy. Hovering (or focusing the
-                    link with a keyboard) fades the image out to reveal it.
+                    The preview image covers the copy. Hovering the image (or
+                    focusing the link with a keyboard) fades it out to reveal it.
                     On touch screens the copy sits under the image instead.
                   */}
                   <div className="case-card min-w-0">
@@ -97,7 +98,7 @@ export default async function Home() {
                       )}
                     </div>
                     <div className="case-card-copy">
-                      <p className="text-[1.375rem] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[1.75rem] text-balance transition-colors group-hover:text-accent">
+                      <p className="text-[1.375rem] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[1.75rem] text-balance">
                         <Link href={`/work/${cs.slug}`} className="case-row" draggable={false}>
                           {cs.headline ?? cs.title}
                         </Link>

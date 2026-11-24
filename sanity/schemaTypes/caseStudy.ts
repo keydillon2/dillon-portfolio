@@ -209,6 +209,15 @@ export const caseStudy = defineType({
       fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
     }),
     defineField({
+      name: 'cardImage',
+      title: 'Home page card image',
+      type: 'image',
+      description: 'Optional. Shown on the home page card. Falls back to the cover image.',
+      group: 'visuals',
+      options: { hotspot: true },
+      fields: [defineField({ name: 'alt', title: 'Alt text', type: 'string' })],
+    }),
+    defineField({
       name: 'gallery',
       title: 'Gallery',
       type: 'array',
