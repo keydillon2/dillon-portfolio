@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { site } from '@/lib/site'
+import { track } from '@/lib/analytics'
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react'
 
 type Turn = { role: 'user' | 'assistant'; content: string }
@@ -187,6 +188,7 @@ function CaseCard({ c }: { c: ChatCase }) {
   return (
     <Link
       href={`/work/${c.slug}`}
+      onClick={() => track('chat_case_card', { case: c.slug })}
       className="group/card flex w-60 shrink-0 flex-col overflow-hidden rounded-xl border border-rule bg-paper transition-colors hover:border-accent"
     >
       <div className="relative aspect-[16/9] bg-ink">
@@ -278,6 +280,8 @@ export default function ChatBar({ cases }: { cases: ChatCase[] }) {
     const q = question.trim()
     if (!q || busy) return
     const history: Turn[] = [...turns, { role: 'user', content: q }]
+    // Count the question and its place in the conversation; never send the text.
+    track('chat_question', { turn: history.filter((t) => t.role === 'user').length, from: pathname ?? '' })
     setTurns([...history, { role: 'assistant', content: '' }])
     setInput('')
     setOpen(true)
@@ -364,7 +368,10 @@ export default function ChatBar({ cases }: { cases: ChatCase[] }) {
                       <button
                         key={c.label}
                         type="button"
-                        onClick={() => prefill(c.q)}
+                        onClick={() => {
+                          track('chat_suggestion', { kind: 'chip', label: c.label })
+                          prefill(c.q)
+                        }}
                         className="rounded-full border border-rule bg-paper px-3.5 py-1.5 text-[0.8125rem] transition-colors hover:border-accent hover:text-accent"
                       >
                         {c.label}
@@ -383,7 +390,10 @@ export default function ChatBar({ cases }: { cases: ChatCase[] }) {
                         <li key={i}>
                           <button
                             type="button"
-                            onClick={() => prefill(SUGGESTIONS[i])}
+                            onClick={() => {
+                              track('chat_suggestion', { kind: 'starter' })
+                              prefill(SUGGESTIONS[i])
+                            }}
                             className="group/q flex w-full items-center gap-3 rounded-lg px-2 py-2 text-left hover:bg-wash"
                           >
                             <span className="flex-1">{SUGGESTIONS[i]}</span>
@@ -411,7 +421,10 @@ export default function ChatBar({ cases }: { cases: ChatCase[] }) {
                         <button
                           key={q}
                           type="button"
-                          onClick={() => prefill(q)}
+                          onClick={() => {
+                            track('chat_suggestion', { kind: 'followup' })
+                            prefill(q)
+                          }}
                           className="rounded-full border border-rule bg-paper px-3.5 py-1.5 text-left text-[0.8125rem] transition-colors hover:border-accent hover:text-accent"
                         >
                           {q}
@@ -442,6 +455,7 @@ export default function ChatBar({ cases }: { cases: ChatCase[] }) {
             onChange={(e) => setInput(e.target.value)}
             onFocus={() => {
               setFocused(true)
+              if (!open) track('chat_open', { from: pathname ?? '' })
               setOpen(true)
             }}
             onBlur={() => setFocused(false)}

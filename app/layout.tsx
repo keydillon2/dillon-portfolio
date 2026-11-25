@@ -8,12 +8,16 @@ import ChatBar, { type ChatCase } from "./components/ChatBar";
 import { getCaseStudies } from "@/sanity/lib/caseStudies";
 import { urlFor } from "@/sanity/lib/image";
 import Link from "next/link";
+import Analytics from "./components/Analytics";
+import { jsonLd, siteSchema } from "@/lib/structuredData";
+import TrackClicks from "./components/TrackClicks";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
-  title: `${site.name} — Strategy Portfolio`,
-  description: `${site.summary} Case studies: Fetch, Hackensack Meridian Health, American Express, Diageo, Apollo Global Management.`,
-  openGraph: { siteName: site.name, type: "website" },
+  title: { default: site.title, template: `%s — ${site.name}` },
+  description: site.description,
+  alternates: { canonical: "/" },
+  openGraph: { siteName: site.name, type: "website", title: site.title, description: site.description },
   twitter: { card: "summary_large_image" },
 };
 
@@ -21,6 +25,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
+        <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(siteSchema())} />
         <div className="flex-1">{children}</div>
         <footer className="mx-auto w-full max-w-6xl px-6 pb-32">
           <div className="flex flex-col gap-2 border-t border-rule pt-8 text-meta text-muted sm:flex-row sm:justify-between">
@@ -52,6 +57,8 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           </div>
         </footer>
         <ChatBar cases={await chatCases()} />
+        <TrackClicks />
+        <Analytics />
       </body>
     </html>
   );

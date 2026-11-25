@@ -29,6 +29,8 @@ export interface Figure {
 
 export interface CaseStudy {
   _id: string
+  _updatedAt?: string
+  publishedAt?: string
   title: string
   slug: string
   client?: string
@@ -55,7 +57,7 @@ export interface CaseStudy {
 const IMAGE = `alt, caption, asset->{ _id, metadata { dimensions { width, height } } }`
 
 const FIELDS = `
-  _id, title, "slug": slug.current, client, industry,
+  _id, _updatedAt, publishedAt, title, "slug": slug.current, client, industry,
   headline, brief, reframe, role, contribution, figures,
   businessProblem, strategicInsight, framework, decisionProcess, execution,
   diagram,

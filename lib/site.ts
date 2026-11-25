@@ -8,6 +8,12 @@ export const site = {
     "I'm a Senior Strategist at Prosek Partners in New York. I work with brands that have complex products and multiple stakeholders.",
   email: 'dillon.key@gmail.com',
   linkedin: 'https://www.linkedin.com/in/dillon-key/',
+  // Search and share copy: who Dillon is, in the words people search for.
+  title: 'Dillon Key — Brand Strategist | Positioning, Messaging & Narrative',
+  description:
+    'Dillon Key is a New York brand strategist. Positioning, messaging and launch narratives for complex brands like HSFT, American Express and Apollo.',
+  // Other profiles that are the same person, for search engines.
+  sameAs: ['https://www.linkedin.com/in/dillon-key/'],
 }
 
 // The canonical address. dillonkey.com redirects here (set in Vercel).
