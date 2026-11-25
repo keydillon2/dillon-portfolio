@@ -2,7 +2,9 @@
 // page), so it lives here rather than in a secret. Tracking runs on the live
 // site only, so preview checks don't count as visits.
 
-export const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? 'G-6THFCCHT02'
+const id = process.env.NEXT_PUBLIC_GA_ID ?? 'G-6THFCCHT02'
+// Only a well-formed Measurement ID is ever written into the page.
+export const GA_ID = /^G-[A-Z0-9]{4,16}$/.test(id) ? id : ''
 
 declare global {
   interface Window {

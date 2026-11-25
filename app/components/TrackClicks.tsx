@@ -8,6 +8,15 @@ import { track } from '@/lib/analytics'
  * and case studies (with where the click came from). Google's enhanced
  * measurement already records page views, scrolling and outbound links.
  */
+function isLinkedIn(href: string) {
+  try {
+    const host = new URL(href, window.location.href).hostname
+    return host === 'linkedin.com' || host === 'www.linkedin.com'
+  } catch {
+    return false
+  }
+}
+
 export default function TrackClicks() {
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
@@ -16,7 +25,7 @@ export default function TrackClicks() {
       const href = a.getAttribute('href') ?? ''
       const from = window.location.pathname
       if (href.startsWith('mailto:')) track('contact_email', { from })
-      else if (href.includes('linkedin.com')) track('contact_linkedin', { from })
+      else if (isLinkedIn(href)) track('contact_linkedin', { from })
       else if (href === '/resume') track('resume_open', { from })
       else if (href.startsWith('/work/')) track('case_open', { case: href.slice(6), from })
     }
