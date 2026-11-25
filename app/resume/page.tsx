@@ -5,8 +5,8 @@ import { site } from '@/lib/site'
 import { resume } from '@/lib/resumeData'
 
 export const metadata: Metadata = {
-  title: `Resume — ${site.name}`,
-  description: `${site.name}, ${site.role} at Prosek Partners. ${resume.summary}`,
+  title: 'Resume',
+  description: `Resume of ${site.name}, a New York brand strategist: positioning, messaging and product marketing for financial services, enterprise tech and consumer brands.`,
   alternates: { canonical: '/resume' },
 }
 

@@ -3,9 +3,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Logo from '@/app/components/Logo'
 import { notFound } from 'next/navigation'
-import { getCaseStudies, getCaseStudy, type SanityImage } from '@/sanity/lib/caseStudies'
+import { getCaseStudies, getCaseStudy, type CaseStudy, type SanityImage } from '@/sanity/lib/caseStudies'
+import { jsonLd } from '@/lib/structuredData'
+import { siteUrl } from '@/lib/site'
 import { urlFor } from '@/sanity/lib/image'
-import { site } from '@/lib/site'
 import BriefReframe from '../../components/BriefReframe'
 import Diagram from '../../components/Diagram'
 import Figures from '../../components/Figures'
@@ -25,13 +26,26 @@ export async function generateMetadata(props: PageProps<'/work/[slug]'>): Promis
   const found = await getCaseStudy(slug)
   if (!found) return {}
   const { cs } = found
-  const description = cs.headline ?? cs.reframe ?? cs.businessProblem?.slice(0, 160)
+  const description = caseDescription(cs)
+  const image = cs.coverImage?.asset ? urlFor(cs.coverImage).width(1200).height(630).fit('crop').auto('format').url() : undefined
   return {
-    title: `${cs.title}, ${cs.client} — ${site.name}`,
+    title: `${cs.client}: ${cs.title}`,
     description,
     alternates: { canonical: `/work/${cs.slug}` },
-    openGraph: { title: `${cs.title} · ${cs.client}`, description, type: 'article' },
+    openGraph: {
+      title: `${cs.client}: ${cs.title}`,
+      description,
+      type: 'article',
+      ...(image ? { images: [{ url: image, width: 1200, height: 630, alt: cs.coverImage?.alt ?? '' }] } : {}),
+    },
   }
+}
+
+/** A search-result description: the client, the skills, then the headline, within ~160 characters. */
+function caseDescription(cs: CaseStudy) {
+  const skills = cs.skills?.length ? `${cs.skills.slice(0, 2).join(' and ')} for ${cs.client}. ` : `${cs.client} case study. `
+  const text = `${skills}${cs.headline ?? cs.reframe ?? ''}`
+  return text.length > 160 ? `${text.slice(0, 157).replace(/\s+\S*$/, '')}…` : text
 }
 
 function Picture({ image, sizes, priority }: { image: SanityImage; sizes: string; priority?: boolean }) {
@@ -59,6 +73,24 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
 
   return (
     <main className="mx-auto w-full max-w-6xl px-6 pt-10 pb-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLd({
+          '@context': 'https://schema.org',
+          '@type': 'CreativeWork',
+          name: `${cs.client}: ${cs.title}`,
+          headline: cs.headline ?? cs.title,
+          description: caseDescription(cs),
+          url: `${siteUrl()}/work/${cs.slug}`,
+          ...(cs.publishedAt ? { datePublished: cs.publishedAt } : {}),
+          ...(cs._updatedAt ? { dateModified: cs._updatedAt } : {}),
+          ...(cs.coverImage?.asset ? { image: urlFor(cs.coverImage).width(1600).auto('format').url() } : {}),
+          about: { '@type': 'Organization', name: cs.client },
+          keywords: cs.skills?.join(', '),
+          author: { '@id': `${siteUrl()}/#person` },
+          creator: { '@id': `${siteUrl()}/#person` },
+        })}
+      />
       <nav aria-label="Breadcrumb" className="flex items-end text-meta">
         <Link href="/#work" className="transition-opacity hover:opacity-75">
           <Logo size="sm" />
