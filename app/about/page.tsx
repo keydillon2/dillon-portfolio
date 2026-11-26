@@ -16,7 +16,7 @@ export default function AboutPage() {
   return (
     <main className="mx-auto w-full max-w-6xl px-6 pt-32 pb-24 sm:pt-44">
       <h1 className="text-meta font-medium text-muted">About</h1>
-      <p className="mt-4 max-w-[24ch] text-[2rem] leading-[1.1] font-semibold tracking-[-0.03em] sm:text-[3.25rem] text-balance">
+      <p className="mt-4 max-w-[24ch] font-serif text-[2.25rem] leading-[1.1] font-semibold tracking-[-0.015em] sm:text-[3.5rem] text-balance">
         I help companies with complex products decide what to stand for and how to say it.
       </p>
 

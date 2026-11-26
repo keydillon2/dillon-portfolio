@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { ViewTransition } from 'react'
 import Link from 'next/link'
 import CaseRow from './CaseRow'
 import { urlFor } from '@/sanity/lib/image'
@@ -32,13 +33,15 @@ export default function CaseGrid({ cases }: { cases: CaseStudy[] }) {
                 <div className="case-card-sizer" aria-hidden />
                 <div className="case-card-cover" aria-hidden>
                   {src ? (
-                    <Image src={src} alt="" fill sizes="(min-width: 1152px) 34rem, (min-width: 768px) 50vw, 100vw" className="object-cover" />
+                    <ViewTransition name={cs.cardImage?.asset ? undefined : `case-${cs.slug}`} share="morph" default="none">
+                      <Image src={src} alt="" fill sizes="(min-width: 1152px) 34rem, (min-width: 768px) 50vw, 100vw" className="object-cover" />
+                    </ViewTransition>
                   ) : (
                     <p className="case-card-type">{cs.headline ?? cs.title}</p>
                   )}
                 </div>
                 <div className="case-card-copy">
-                  <p className="text-[1.25rem] leading-[1.2] font-semibold tracking-[-0.02em] text-balance">
+                  <p className="font-serif text-[1.375rem] leading-[1.2] font-semibold tracking-[-0.01em] text-balance">
                     <Link href={`/work/${cs.slug}`} className="case-row" draggable={false}>
                       {cs.headline ?? cs.title}
                     </Link>
