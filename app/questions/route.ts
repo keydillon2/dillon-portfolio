@@ -1,4 +1,4 @@
-import { createHash, timingSafeEqual } from 'node:crypto'
+import { timingSafeEqual } from 'node:crypto'
 import { readQuestions } from '@/lib/chat/store'
 
 /*
@@ -17,9 +17,10 @@ export async function GET(request: Request) {
 
   const auth = request.headers.get('authorization') ?? ''
   const given = auth.startsWith('Basic ') ? Buffer.from(auth.slice(6), 'base64').toString().split(':').slice(1).join(':') : ''
-  // Compare hashes in constant time so response timing doesn't reveal the password.
-  const digest = (v: string) => createHash('sha256').update(v).digest()
-  if (!timingSafeEqual(digest(given), digest(password))) {
+  // Constant-time comparison so response timing doesn't reveal the password.
+  const a = Buffer.from(given)
+  const b = Buffer.from(password)
+  if (a.length !== b.length || !timingSafeEqual(a, b)) {
     return new Response('Password required', { status: 401, headers: { 'WWW-Authenticate': 'Basic realm="Chat questions"' } })
   }
 
