@@ -132,18 +132,6 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
               </ul>
             </Meta>
           ) : null}
-          {cs.figures?.length ? (
-            <Meta label="Impact">
-              <ul className="space-y-3">
-                {cs.figures.map((f) => (
-                  <li key={f._key}>
-                    <span className="block text-[1.375rem] leading-tight font-semibold tracking-[-0.02em] text-ink">{f.value}</span>
-                    <span className="block text-muted text-pretty">{f.label}</span>
-                  </li>
-                ))}
-              </ul>
-            </Meta>
-          ) : null}
         </dl>
 
         <div className="min-w-0">
