@@ -263,7 +263,7 @@ body {
 .site-logo {
   position: fixed;
   top: 1.5rem;
-  left: max(1.5rem, calc((100vw - 72rem) / 2 + 1.5rem));
+  left: max(1.5rem, calc((100% - 72rem) / 2 + 1.5rem));
   z-index: 50;
   color: var(--logo-blend);
   mix-blend-mode: difference;
@@ -279,7 +279,7 @@ body {
 .site-nav {
   position: fixed;
   top: 1.5rem;
-  right: max(1.5rem, calc((100vw - 72rem) / 2 + 1.5rem));
+  right: max(1.5rem, calc((100% - 72rem) / 2 + 1.5rem));
   z-index: 50;
   color: var(--logo-blend);
   mix-blend-mode: difference;
