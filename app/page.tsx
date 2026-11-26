@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import CaseGrid from './components/CaseGrid'
+import DarkZone from './components/DarkZone'
 import { getCaseStudies } from '@/sanity/lib/caseStudies'
 import HashRedirect from './components/HashRedirect'
 
@@ -36,7 +37,8 @@ export default async function Home() {
         </p>
       </header>
 
-      <section id="work" aria-labelledby="work-heading" className="mt-24 scroll-mt-10">
+      <DarkZone className="mt-24">
+      <section id="work" aria-labelledby="work-heading" className="scroll-mt-10">
         <h2 id="work-heading" className="text-meta font-medium text-muted">
           Selected work
         </h2>
@@ -55,6 +57,7 @@ export default async function Home() {
           </div>
         )}
       </section>
+      </DarkZone>
     </main>
   )
 }

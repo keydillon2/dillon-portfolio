@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 // Self-hosted variable fonts (no runtime request to Google Fonts).
 import "@fontsource-variable/schibsted-grotesk";
 import "@fontsource-variable/source-serif-4/opsz.css";
@@ -30,7 +31,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(siteSchema())} />
         <SiteLogo />
         <SiteNav />
-        <div className="flex-1">{children}</div>
+        <ViewTransition>
+          <div className="flex-1">{children}</div>
+        </ViewTransition>
         <footer className="mx-auto w-full max-w-6xl px-6 pb-32">
           <div className="flex flex-col gap-2 border-t border-rule pt-8 text-meta text-muted sm:flex-row sm:justify-between">
             <p>

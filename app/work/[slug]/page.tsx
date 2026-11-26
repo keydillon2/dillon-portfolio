@@ -9,10 +9,12 @@ import { siteUrl } from '@/lib/site'
 import { urlFor } from '@/sanity/lib/image'
 import Diagram from '../../components/Diagram'
 import ReasoningChain from '../../components/ReasoningChain'
+import DarkZone from '../../components/DarkZone'
+import { ViewTransition } from 'react'
 
 export const revalidate = 60
 
-const DISPLAY = 'text-[2.125rem] leading-[1.08] font-semibold tracking-[-0.03em] sm:text-[3.25rem] text-balance'
+const DISPLAY = 'font-serif text-[2.25rem] leading-[1.08] font-semibold tracking-[-0.015em] sm:text-[3.5rem] text-balance'
 
 // The left column used by the overview and the full case, so they line up.
 const COLS = 'md:grid-cols-[15rem_1fr] md:gap-16'
@@ -162,7 +164,11 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
 
       {cs.coverImage && (
         <div className="mt-16">
-          <Picture image={cs.coverImage} sizes="(min-width: 1024px) 64rem, 100vw" priority />
+          <ViewTransition name={`case-${cs.slug}`} share="morph" default="none">
+            <div>
+              <Picture image={cs.coverImage} sizes="(min-width: 1024px) 64rem, 100vw" priority />
+            </div>
+          </ViewTransition>
         </div>
       )}
 
@@ -181,10 +187,11 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
         </div>
       </section>
 
+      <DarkZone className="mt-20 pb-4">
       {cs.gallery && cs.gallery.length > 0 && (
         // Landscape images run the full width so their detail is legible;
         // portrait images pair up side by side.
-        <div className="mt-20 grid gap-x-6 gap-y-12 sm:grid-cols-2">
+        <div className="pt-4 grid gap-x-6 gap-y-12 sm:grid-cols-2">
           {cs.gallery.map((img) => {
             const dims = img.asset?.metadata?.dimensions
             const wide = !dims || dims.width >= dims.height
@@ -218,6 +225,7 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
           </Link>
         </nav>
       )}
+      </DarkZone>
     </main>
   )
 }

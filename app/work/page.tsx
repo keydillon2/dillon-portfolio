@@ -3,6 +3,7 @@ import { getCaseStudies } from '@/sanity/lib/caseStudies'
 import CaseGrid from '../components/CaseGrid'
 import HoverList from '../components/HoverList'
 import WorkViews from '../components/WorkViews'
+import DarkZone from '../components/DarkZone'
 
 export const revalidate = 60
 
@@ -19,7 +20,11 @@ export default async function WorkPage() {
       <h1 className="text-meta font-medium text-muted">Work</h1>
       <div className="mt-8">
         <WorkViews
-          grid={<CaseGrid cases={cases} />}
+          grid={
+            <DarkZone>
+              <CaseGrid cases={cases} />
+            </DarkZone>
+          }
           list={
             <HoverList
               label="Case studies"
