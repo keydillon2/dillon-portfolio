@@ -285,25 +285,36 @@ body {
   mix-blend-mode: difference;
 }
 @media (min-width: 640px) {
-  .site-nav { top: 2.4rem; }
+  .site-nav { top: 2.2rem; }
+  .site-menu { padding: 2rem 1.5rem; }
 }
-.site-nav-link {
-  font-size: 0.9375rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  text-decoration: none;
-  background-image: linear-gradient(currentColor, currentColor);
-  background-size: 0% 1px;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  transition: background-size 250ms ease;
-  padding-bottom: 2px;
+.site-burger {
+  display: grid;
+  gap: 7px;
+  width: 30px;
+  padding: 8px 0;
+  cursor: pointer;
 }
-.site-nav-link:hover,
-.site-nav-link[aria-current='page'] { background-size: 100% 1px; }
-.site-nav-link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.site-burger span { display: block; height: 2px; width: 100%; background: currentColor; border-radius: 2px; transition: transform 200ms ease; }
+.site-burger:hover span:last-child { transform: scaleX(0.6); transform-origin: right; }
+.site-burger:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
+.site-close { display: grid; place-items: center; width: 30px; height: 30px; cursor: pointer; }
+.site-menu-link {
+  font-size: 2.75rem;
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  opacity: 0.55;
+  transition: opacity 200ms ease;
+}
+@media (min-width: 640px) {
+  .site-menu-link { font-size: 4.5rem; }
+}
+.site-menu-link:hover,
+.site-menu-link:focus-visible,
+.site-menu-link[aria-current='page'] { opacity: 1; }
 
-/* Full-screen menu on phones. */
+/* Full-screen menu. */
 .site-menu {
   position: fixed;
   inset: 0;
@@ -313,37 +324,6 @@ body {
   padding: 1.5rem;
   background: var(--ink);
   color: var(--paper);
-}
-
-/* ---------- Scroll-revealed text: grey to full ink, word by word ---------- */
-.scroll-text { view-timeline: --scroll-text block; }
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .scroll-text .scroll-word {
-      animation: scroll-word-in linear both;
-      animation-timeline: --scroll-text;
-      animation-range: cover calc(10% + var(--p) * 30%) cover calc(16% + var(--p) * 30%);
-    }
-  }
-}
-/* At the top of a page: fill in over the first stretch of scrolling, from a readable grey. */
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .scroll-text--hero { --word-dim: #a3a7af; }
-    .scroll-text--hero .scroll-word {
-      animation-timeline: scroll(root block);
-      animation-range: calc(var(--p) * 260px) calc(var(--p) * 260px + 90px);
-    }
-  }
-}
-@keyframes scroll-word-in {
-  from { color: var(--word-dim); }
-  to { color: var(--word-full, var(--ink)); }
-}
-:root { --word-dim: #c9cbd0; }
-@media (prefers-color-scheme: dark) {
-  :root { --word-dim: #3c4049; }
-  .scroll-text--hero { --word-dim: #5d626c !important; }
 }
 
 /* ---------- Hover list: rows fill with ink, others fade back ---------- */

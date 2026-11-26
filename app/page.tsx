@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import CaseGrid from './components/CaseGrid'
-import ScrollText from './components/ScrollText'
 import { getCaseStudies } from '@/sanity/lib/caseStudies'
 import HashRedirect from './components/HashRedirect'
 
@@ -17,12 +16,17 @@ export default async function Home() {
       <header className="max-w-3xl">
         {/* The pinned wordmark is the visual title; this keeps the page's heading for search and screen readers. */}
         <h1 className="sr-only">Dillon Key, Brand Strategist</h1>
-        <ScrollText
-          hero
-          className="max-w-[34ch] text-[1.5rem] leading-[1.3] font-medium tracking-[-0.015em] sm:text-[2rem] text-pretty"
-          text="I’m a Senior Strategist at Prosek Partners in New York. I work with brands that have complex products and multiple stakeholders. From global asset managers, family offices, and private market firms (VC, growth, PE, RE), my work clarifies complexity to unlock audience insight, shape strategic decisions, and create commercial value."
-        />
-        <p className="mt-8 flex gap-6 text-meta">
+        <div className="max-w-[62ch] space-y-4 text-[1.125rem] leading-[1.6]">
+          <p>
+            I&rsquo;m a Senior Strategist at Prosek Partners in New York. I work
+            with brands that have complex products and multiple stakeholders.
+            From global asset managers, family offices, and private market firms
+            (VC, growth, PE, RE) &mdash; my work clarifies complexity to unlock
+            audience insight, shape strategic decisions, and create commercial
+            value.
+          </p>
+        </div>
+        <p className="mt-6 flex gap-6 text-meta">
           <Link href="/about" className="text-ink underline decoration-rule underline-offset-4 hover:decoration-accent">
             About me
           </Link>

@@ -20,7 +20,7 @@ export default function ReasoningChain({ cs }: { cs: CaseStudy }) {
       {stages.map(({ key, label }) => (
         <div key={key} className="md:grid md:grid-cols-[8rem_1fr] md:gap-8">
           <dt className="text-meta font-medium text-muted md:pt-[0.2rem]">{label}</dt>
-          <dd className="mt-1 max-w-[66ch] text-pretty whitespace-pre-line md:mt-0">{cs[key]}</dd>
+          <dd className="mt-1 text-pretty whitespace-pre-line md:mt-0">{cs[key]}</dd>
         </div>
       ))}
     </dl>

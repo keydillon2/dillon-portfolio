@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { resume } from '@/lib/resumeData'
 import { site } from '@/lib/site'
 import HoverList from '../components/HoverList'
-import ScrollText from '../components/ScrollText'
 
 export const metadata: Metadata = {
   title: 'About',
@@ -17,11 +16,9 @@ export default function AboutPage() {
   return (
     <main className="mx-auto w-full max-w-6xl px-6 pt-32 pb-24 sm:pt-44">
       <h1 className="text-meta font-medium text-muted">About</h1>
-      <ScrollText
-          hero
-        className="mt-4 max-w-[24ch] text-[2rem] leading-[1.1] font-semibold tracking-[-0.03em] sm:text-[3.25rem] text-balance"
-        text="I help companies with complex products decide what to stand for and how to say it."
-      />
+      <p className="mt-4 max-w-[24ch] text-[2rem] leading-[1.1] font-semibold tracking-[-0.03em] sm:text-[3.25rem] text-balance">
+        I help companies with complex products decide what to stand for and how to say it.
+      </p>
 
       <div className="mt-16 grid gap-10 md:grid-cols-[1fr_1.6fr] md:gap-16">
         <p className="text-meta text-muted">Background</p>
@@ -45,21 +42,6 @@ export default function AboutPage() {
           </p>
         </div>
       </div>
-
-      <section aria-labelledby="practice" className="mt-24">
-        <h2 id="practice" className="text-meta font-medium text-muted">
-          What I do
-        </h2>
-        <ul className="mt-6 grid gap-10 sm:grid-cols-3 sm:gap-8">
-          {resume.practice.map((p) => (
-            <li key={p.label} className="border-t border-rule pt-5">
-              <p className="text-[1.375rem] font-semibold tracking-[-0.015em]">{p.label}</p>
-              <p className="mt-2 text-muted text-pretty">{p.text}</p>
-              <p className="mt-3 text-meta text-muted">{p.examples}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
 
       <section aria-labelledby="experience" className="mt-24">
         <h2 id="experience" className="text-meta font-medium text-muted">

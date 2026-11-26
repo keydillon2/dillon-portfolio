@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { getCaseStudies } from '@/sanity/lib/caseStudies'
 import CaseGrid from '../components/CaseGrid'
 import HoverList from '../components/HoverList'
-import ScrollText from '../components/ScrollText'
 import WorkViews from '../components/WorkViews'
 
 export const revalidate = 60
@@ -18,12 +17,7 @@ export default async function WorkPage() {
   return (
     <main className="mx-auto w-full max-w-6xl px-6 pt-32 pb-24 sm:pt-44">
       <h1 className="text-meta font-medium text-muted">Work</h1>
-      <ScrollText
-          hero
-        className="mt-4 max-w-[22ch] text-[2rem] leading-[1.1] font-semibold tracking-[-0.03em] sm:text-[3.25rem] text-balance"
-        text="Brands with complex products, made clear enough to choose."
-      />
-      <div className="mt-16">
+      <div className="mt-8">
         <WorkViews
           grid={<CaseGrid cases={cases} />}
           list={
