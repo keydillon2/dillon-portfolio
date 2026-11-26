@@ -1,19 +1,30 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import type { ReactNode } from 'react'
 import { notFound } from 'next/navigation'
 import { getCaseStudies, getCaseStudy, type CaseStudy, type SanityImage } from '@/sanity/lib/caseStudies'
 import { jsonLd } from '@/lib/structuredData'
 import { siteUrl } from '@/lib/site'
 import { urlFor } from '@/sanity/lib/image'
-import BriefReframe from '../../components/BriefReframe'
 import Diagram from '../../components/Diagram'
-import Figures from '../../components/Figures'
 import ReasoningChain from '../../components/ReasoningChain'
 
 export const revalidate = 60
 
-const DISPLAY = 'text-[2.125rem] leading-[1.08] font-semibold tracking-[-0.03em] sm:text-[3.5rem] text-balance'
+const DISPLAY = 'text-[2.125rem] leading-[1.08] font-semibold tracking-[-0.03em] sm:text-[3.25rem] text-balance'
+
+// The left column used by the overview and the full case, so they line up.
+const COLS = 'md:grid-cols-[15rem_1fr] md:gap-16'
+
+function Meta({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div>
+      <dt className="text-muted">{label}</dt>
+      <dd className="mt-1 text-ink">{children}</dd>
+    </div>
+  )
+}
 
 export async function generateStaticParams() {
   const all = await getCaseStudies()
@@ -68,7 +79,6 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
   const found = await getCaseStudy(slug)
   if (!found) notFound()
   const { cs, next } = found
-  const meta = [cs.client, cs.industry].filter(Boolean).join(', ')
 
   return (
     <main className="mx-auto w-full max-w-6xl px-6 pt-32 pb-24 sm:pt-40">
@@ -98,41 +108,71 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
         <span className="text-ink">{cs.title}</span>
       </nav>
 
-      <header className="mt-10 max-w-4xl sm:mt-14">
-        <p className="text-meta text-muted">{meta}</p>
-        {cs.headline ? (
-          <>
-            <h1 className="mt-2 text-meta font-medium text-ink">{cs.title}</h1>
-            <p className={`mt-6 ${DISPLAY}`}>{cs.headline}</p>
-          </>
-        ) : (
-          <h1 className={`mt-4 ${DISPLAY}`}>{cs.title}</h1>
-        )}
+      <header className="mt-10 max-w-5xl sm:mt-14">
+        <h1 className="text-meta text-muted">
+          <span className="font-medium text-ink">{cs.client}</span>
+          {cs.headline && <span> · {cs.title}</span>}
+        </h1>
+        <p className={`mt-4 ${DISPLAY}`}>{cs.headline ?? cs.title}</p>
       </header>
 
-      {(cs.brief && cs.reframe) && (
-        <div className="mt-16 sm:mt-20">
-          <BriefReframe brief={cs.brief} reframe={cs.reframe} />
-        </div>
-      )}
+      {/*
+        The facts a hiring manager scans for, in one place: a metadata column
+        beside the reframe, with the brief and my role underneath it.
+      */}
+      <section aria-label="Overview" className={`mt-14 grid gap-10 border-t border-rule pt-10 sm:mt-16 ${COLS}`}>
+        <dl className="grid content-start gap-6 text-meta sm:grid-cols-2 md:grid-cols-1">
+          {cs.client && <Meta label="Client">{cs.client}</Meta>}
+          {cs.industry && <Meta label="Industry">{cs.industry}</Meta>}
+          {cs.role && <Meta label="Role">{cs.role}</Meta>}
+          {cs.skills?.length ? (
+            <Meta label="Skills">
+              <ul className="space-y-0.5">
+                {cs.skills.map((s) => (
+                  <li key={s}>{s}</li>
+                ))}
+              </ul>
+            </Meta>
+          ) : null}
+          {cs.figures?.length ? (
+            <Meta label="Impact">
+              <ul className="space-y-3">
+                {cs.figures.map((f) => (
+                  <li key={f._key}>
+                    <span className="block text-[1.375rem] leading-tight font-semibold tracking-[-0.02em] text-ink">{f.value}</span>
+                    <span className="block text-muted text-pretty">{f.label}</span>
+                  </li>
+                ))}
+              </ul>
+            </Meta>
+          ) : null}
+        </dl>
 
-      {(cs.role || cs.contribution || cs.figures?.length) && (
-        <section aria-label="Role and figures" className="mt-16 grid gap-10 border-t border-rule pt-10 md:grid-cols-[1fr_1.35fr] md:gap-16">
-          {(cs.role || cs.contribution) && (
-            <div>
-              <h2 className="text-meta font-medium text-muted">My role</h2>
-              {cs.role && <p className="mt-2 font-medium">{cs.role}</p>}
-              {cs.contribution && <p className="mt-2 text-muted text-pretty">{cs.contribution}</p>}
+        <div className="min-w-0">
+          {cs.reframe && (
+            <>
+              <h2 className="text-meta font-medium text-accent">The reframe</h2>
+              <p className="mt-3 font-serif text-[1.5rem] leading-[1.35] text-pretty sm:text-[2rem]">{cs.reframe}</p>
+            </>
+          )}
+          {(cs.brief || cs.contribution) && (
+            <div className="mt-10 grid gap-8 border-t border-rule pt-8 sm:grid-cols-2">
+              {cs.brief && (
+                <div>
+                  <h2 className="text-meta font-medium text-muted">The brief</h2>
+                  <p className="mt-2 text-muted text-pretty">{cs.brief}</p>
+                </div>
+              )}
+              {cs.contribution && (
+                <div>
+                  <h2 className="text-meta font-medium text-muted">My role</h2>
+                  <p className="mt-2 text-pretty">{cs.contribution}</p>
+                </div>
+              )}
             </div>
           )}
-          {cs.figures?.length ? (
-            <div>
-              <h2 className="sr-only">Figures</h2>
-              <Figures figures={cs.figures} />
-            </div>
-          ) : null}
-        </section>
-      )}
+        </div>
+      </section>
 
       {cs.coverImage && (
         <div className="mt-16">
@@ -147,11 +187,11 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
       )}
 
       <section aria-labelledby="full-case" className="mt-20">
-        <h2 id="full-case" className="text-[1.375rem] font-semibold tracking-[-0.015em]">
+        <h2 id="full-case" className="border-t border-rule pt-10 text-[1.375rem] font-semibold tracking-[-0.015em]">
           The full case
         </h2>
         <div className="mt-8">
-          <ReasoningChain cs={cs} />
+          <ReasoningChain cs={cs} cols={COLS} />
         </div>
       </section>
 

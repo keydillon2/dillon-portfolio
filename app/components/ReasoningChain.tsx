@@ -12,13 +12,13 @@ const STAGES = [
   { key: 'execution', label: 'Execution' },
 ] as const
 
-export default function ReasoningChain({ cs }: { cs: CaseStudy }) {
+export default function ReasoningChain({ cs, cols = 'md:grid-cols-[8rem_1fr] md:gap-8' }: { cs: CaseStudy; cols?: string }) {
   const stages = STAGES.filter((s) => cs[s.key]?.trim())
   if (stages.length === 0) return null
   return (
     <dl className="space-y-8">
       {stages.map(({ key, label }) => (
-        <div key={key} className="md:grid md:grid-cols-[8rem_1fr] md:gap-8">
+        <div key={key} className={`md:grid ${cols}`}>
           <dt className="text-meta font-medium text-muted md:pt-[0.2rem]">{label}</dt>
           <dd className="mt-1 text-pretty whitespace-pre-line md:mt-0">{cs[key]}</dd>
         </div>
