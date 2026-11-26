@@ -101,11 +101,9 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
         })}
       />
       <nav aria-label="Breadcrumb" className="text-meta">
-        <Link href="/#work" className="text-muted underline-offset-4 hover:text-ink hover:underline">
-          Work
+        <Link href="/work" className="text-muted underline-offset-4 hover:text-ink hover:underline">
+          <span aria-hidden>← </span>All work
         </Link>
-        <span aria-hidden className="mx-2 text-rule">/</span>
-        <span className="text-ink">{cs.title}</span>
       </nav>
 
       <header className="mt-10 max-w-5xl sm:mt-14">
