@@ -19,6 +19,7 @@ export async function GET() {
     ...cases.map((cs) => `- [${cs.client}: ${cs.title}](${url}/work/${cs.slug}): ${cs.headline ?? ''}${cs.skills?.length ? ` Skills: ${cs.skills.join(', ')}.` : ''}`),
     '',
     '## About',
+    `- [About](${url}/about): background, what he does and experience.`,
     `- [Resume](${url}/resume): experience, skills and education.`,
     `- [LinkedIn](${site.linkedin})`,
     `- Contact: ${site.email}`,

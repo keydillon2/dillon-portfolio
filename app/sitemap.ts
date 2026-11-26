@@ -15,7 +15,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const latest = cases.map((cs) => cs._updatedAt).filter(Boolean).sort().at(-1)
   return [
     { url: base, lastModified: latest, images: cases.map((cs) => imageUrl(cs.cardImage ?? cs.coverImage)).filter((u): u is string => !!u) },
+    { url: `${base}/work`, lastModified: latest },
+    { url: `${base}/about` },
     { url: `${base}/resume` },
+    { url: `${base}/side-projects` },
     ...cases.map((cs) => ({
       url: `${base}/work/${cs.slug}`,
       lastModified: cs._updatedAt,

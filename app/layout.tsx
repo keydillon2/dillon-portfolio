@@ -12,6 +12,7 @@ import Analytics from "./components/Analytics";
 import { jsonLd, siteSchema } from "@/lib/structuredData";
 import TrackClicks from "./components/TrackClicks";
 import SiteLogo from "./components/SiteLogo";
+import SiteNav from "./components/SiteNav";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
@@ -28,6 +29,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(siteSchema())} />
         <SiteLogo />
+        <SiteNav />
         <div className="flex-1">{children}</div>
         <footer className="mx-auto w-full max-w-6xl px-6 pb-32">
           <div className="flex flex-col gap-2 border-t border-rule pt-8 text-meta text-muted sm:flex-row sm:justify-between">
