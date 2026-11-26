@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import Logo from '@/app/components/Logo'
 import { notFound } from 'next/navigation'
 import { getCaseStudies, getCaseStudy, type CaseStudy, type SanityImage } from '@/sanity/lib/caseStudies'
 import { jsonLd } from '@/lib/structuredData'
@@ -72,7 +71,7 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
   const meta = [cs.client, cs.industry].filter(Boolean).join(', ')
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 pt-10 pb-24">
+    <main className="mx-auto w-full max-w-6xl px-6 pt-32 pb-24 sm:pt-40">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={jsonLd({
@@ -91,15 +90,15 @@ export default async function CasePage(props: PageProps<'/work/[slug]'>) {
           creator: { '@id': `${siteUrl()}/#person` },
         })}
       />
-      <nav aria-label="Breadcrumb" className="flex items-end text-meta">
-        <Link href="/#work" className="transition-opacity hover:opacity-75">
-          <Logo size="sm" />
+      <nav aria-label="Breadcrumb" className="text-meta">
+        <Link href="/#work" className="text-muted underline-offset-4 hover:text-ink hover:underline">
+          Work
         </Link>
         <span aria-hidden className="mx-2 text-rule">/</span>
         <span className="text-ink">{cs.title}</span>
       </nav>
 
-      <header className="mt-16 max-w-4xl sm:mt-24">
+      <header className="mt-10 max-w-4xl sm:mt-14">
         <p className="text-meta text-muted">{meta}</p>
         {cs.headline ? (
           <>
