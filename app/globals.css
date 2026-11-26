@@ -274,3 +274,113 @@ body {
 @media (min-width: 640px) {
   .site-logo { top: 2rem; }
 }
+
+/* ---------- Primary navigation (top-right, mirrors the wordmark) ---------- */
+.site-nav {
+  position: fixed;
+  top: 1.5rem;
+  right: max(1.5rem, calc((100vw - 72rem) / 2 + 1.5rem));
+  z-index: 50;
+  color: var(--logo-blend);
+  mix-blend-mode: difference;
+}
+@media (min-width: 640px) {
+  .site-nav { top: 2.4rem; }
+}
+.site-nav-link {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 250ms ease;
+  padding-bottom: 2px;
+}
+.site-nav-link:hover,
+.site-nav-link[aria-current='page'] { background-size: 100% 1px; }
+.site-nav-link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+
+/* Full-screen menu on phones. */
+.site-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ---------- Scroll-revealed text: grey to full ink, word by word ---------- */
+.scroll-text { view-timeline: --scroll-text block; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-text .scroll-word {
+      animation: scroll-word-in linear both;
+      animation-timeline: --scroll-text;
+      animation-range: cover calc(10% + var(--p) * 30%) cover calc(16% + var(--p) * 30%);
+    }
+  }
+}
+/* At the top of a page: fill in over the first stretch of scrolling, from a readable grey. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-text--hero { --word-dim: #a3a7af; }
+    .scroll-text--hero .scroll-word {
+      animation-timeline: scroll(root block);
+      animation-range: calc(var(--p) * 260px) calc(var(--p) * 260px + 90px);
+    }
+  }
+}
+@keyframes scroll-word-in {
+  from { color: var(--word-dim); }
+  to { color: var(--word-full, var(--ink)); }
+}
+:root { --word-dim: #c9cbd0; }
+@media (prefers-color-scheme: dark) {
+  :root { --word-dim: #3c4049; }
+  .scroll-text--hero { --word-dim: #5d626c !important; }
+}
+
+/* ---------- Hover list: rows fill with ink, others fade back ---------- */
+.hover-list { border-top: 1px solid var(--rule); }
+.hover-list > li { border-bottom: 1px solid var(--rule); }
+.hover-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.25rem 2rem;
+  align-items: baseline;
+  margin: 0 -1rem;
+  padding: 1.25rem 1rem;
+  border-radius: 12px;
+  transition: background-color 220ms ease, color 220ms ease, opacity 220ms ease, transform 220ms ease;
+}
+@media (min-width: 768px) {
+  .hover-row { grid-template-columns: 17rem minmax(0, 1fr) 10rem 1.25rem; }
+  .hover-row-meta { text-align: right; white-space: normal; }
+}
+.hover-row-title { font-size: 1.375rem; line-height: 1.2; font-weight: 500; letter-spacing: -0.015em; }
+.hover-row-detail { color: var(--muted); text-wrap: pretty; }
+.hover-row-meta { color: var(--muted); font-size: 0.8125rem; white-space: nowrap; }
+.hover-row-arrow { opacity: 0; transform: translateX(-6px); transition: opacity 220ms ease, transform 220ms ease; justify-self: end; }
+@media (hover: hover) {
+  .hover-list:has(.hover-row:hover) .hover-row:not(:hover) { opacity: 0.35; }
+  .hover-row:hover {
+    background: var(--ink);
+    color: var(--paper);
+    transform: scale(1.01);
+    box-shadow: 0 12px 30px -16px rgb(0 0 0 / 0.45);
+  }
+  .hover-row:hover .hover-row-detail,
+  .hover-row:hover .hover-row-meta { color: color-mix(in srgb, var(--paper) 72%, transparent); }
+  a.hover-row:hover .hover-row-arrow { opacity: 1; transform: none; }
+}
+a.hover-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  .hover-row, .hover-row-arrow { transition: none; }
+  .hover-row:hover { transform: none; }
+}

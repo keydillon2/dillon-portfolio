@@ -1,3 +1,5 @@
+import ScrollText from './ScrollText'
+
 /*
  * The signature device: what the client asked for, set against what the
  * problem turned out to be. The reframe is where a strategist earns their
@@ -20,9 +22,7 @@ export default function BriefReframe({ brief, reframe }: { brief?: string; refra
 
       <div className="reframe-text border-l-2 border-accent pl-5">
         <h2 className="text-meta font-medium text-accent">The reframe</h2>
-        <p className="mt-2 max-w-[48ch] font-serif text-[1.25rem] leading-[1.45] sm:text-[1.5rem] text-pretty">
-          {reframe}
-        </p>
+        <ScrollText className="mt-2 max-w-[48ch] font-serif text-[1.25rem] leading-[1.45] sm:text-[1.5rem] text-pretty" text={reframe} />
       </div>
     </section>
   )

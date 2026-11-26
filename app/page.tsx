@@ -1,19 +1,11 @@
-import Image from 'next/image'
 import Link from 'next/link'
-import CaseRow from './components/CaseRow'
-import { getCaseStudies, type CaseStudy } from '@/sanity/lib/caseStudies'
-import { urlFor } from '@/sanity/lib/image'
+import CaseGrid from './components/CaseGrid'
+import ScrollText from './components/ScrollText'
+import { getCaseStudies } from '@/sanity/lib/caseStudies'
 import HashRedirect from './components/HashRedirect'
 
 // Revalidate at most once a minute so Sanity edits surface without a redeploy.
 export const revalidate = 60
-
-/** The card image, or the cover image when there isn't one. */
-function coverSrc(cs: CaseStudy) {
-  const image = cs.cardImage?.asset ? cs.cardImage : cs.coverImage
-  if (!image?.asset) return null
-  return urlFor(image).width(1600).auto('format').url()
-}
 
 export default async function Home() {
   const caseStudies = await getCaseStudies()
@@ -25,17 +17,15 @@ export default async function Home() {
       <header className="max-w-3xl">
         {/* The pinned wordmark is the visual title; this keeps the page's heading for search and screen readers. */}
         <h1 className="sr-only">Dillon Key, Brand Strategist</h1>
-        <div className="max-w-[62ch] space-y-4 text-[1.125rem] leading-[1.6]">
-          <p>
-            I&rsquo;m a Senior Strategist at Prosek Partners in New York. I work
-            with brands that have complex products and multiple stakeholders.
-            From global asset managers, family offices, and private market firms
-            (VC, growth, PE, RE) &mdash; my work clarifies complexity to unlock
-            audience insight, shape strategic decisions, and create commercial
-            value.
-          </p>
-        </div>
-        <p className="mt-6 text-meta">
+        <ScrollText
+          hero
+          className="max-w-[34ch] text-[1.5rem] leading-[1.3] font-medium tracking-[-0.015em] sm:text-[2rem] text-pretty"
+          text="I’m a Senior Strategist at Prosek Partners in New York. I work with brands that have complex products and multiple stakeholders. From global asset managers, family offices, and private market firms (VC, growth, PE, RE), my work clarifies complexity to unlock audience insight, shape strategic decisions, and create commercial value."
+        />
+        <p className="mt-8 flex gap-6 text-meta">
+          <Link href="/about" className="text-ink underline decoration-rule underline-offset-4 hover:decoration-accent">
+            About me
+          </Link>
           <Link href="/resume" className="text-ink underline decoration-rule underline-offset-4 hover:decoration-accent">
             View resume
           </Link>
@@ -56,61 +46,9 @@ export default async function Home() {
             .
           </p>
         ) : (
-          <ol className="mt-6 grid gap-x-8 gap-y-14 md:grid-cols-2">
-            {caseStudies.map((cs) => (
-              <li key={cs._id} className="flex">
-                <CaseRow
-                  href={`/work/${cs.slug}`}
-                  className="group flex w-full flex-col gap-4"
-                >
-                  <div className="text-meta">
-                    <p className="font-medium text-ink">{cs.client}</p>
-                    {cs.headline && <p className="text-muted">{cs.title}</p>}
-                  </div>
-                  {/*
-                    The preview image covers the copy. Hovering the image (or
-                    focusing the link with a keyboard) fades it out to reveal it.
-                    On touch screens the copy sits under the image instead.
-                  */}
-                  <div className="case-card case-card--compact min-w-0 flex-1">
-                    <div className="case-card-sizer" aria-hidden />
-                    <div className="case-card-cover" aria-hidden>
-                      {coverSrc(cs) ? (
-                        <Image
-                          src={coverSrc(cs)!}
-                          alt=""
-                          fill
-                          sizes="(min-width: 1152px) 34rem, (min-width: 768px) 50vw, 100vw"
-                          className="object-cover"
-                        />
-                      ) : (
-                        <p className="case-card-type">{cs.headline ?? cs.title}</p>
-                      )}
-                    </div>
-                    <div className="case-card-copy">
-                      <p className="text-[1.25rem] leading-[1.2] font-semibold tracking-[-0.02em] text-balance">
-                        <Link href={`/work/${cs.slug}`} className="case-row" draggable={false}>
-                          {cs.headline ?? cs.title}
-                        </Link>
-                      </p>
-                      {cs.reframe && (
-                        <p className="mt-3 text-[0.9375rem] leading-[1.55] text-muted text-pretty">{cs.reframe}</p>
-                      )}
-                      {cs.skills?.length ? (
-                        <ul className="mt-5 flex flex-wrap gap-x-2 gap-y-1.5" aria-label="Skills">
-                          {cs.skills.map((skill) => (
-                            <li key={skill} className="rounded-full border border-rule px-2.5 py-0.5 text-[0.75rem] leading-5 text-muted">
-                              {skill}
-                            </li>
-                          ))}
-                        </ul>
-                      ) : null}
-                    </div>
-                  </div>
-                </CaseRow>
-              </li>
-            ))}
-          </ol>
+          <div className="mt-6">
+            <CaseGrid cases={caseStudies} />
+          </div>
         )}
       </section>
     </main>
