@@ -15,6 +15,8 @@
   --wash: #f0f1ee;       /* hover and subtle fills */
   --panel: #ffffff;      /* diagram surface, one step above paper */
   --accent: #2b3fd6;     /* cobalt: the reframe, the open space, links */
+  /* Floating logo base color: under mix-blend-mode: difference, |this - paper| = accent. */
+  --logo-blend: #d0bc23;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,6 +28,7 @@
     --wash: #1d2027;
     --panel: #191c22;
     --accent: #8f9dff;
+    --logo-blend: #a3b3ff;
   }
 }
 
@@ -250,4 +253,24 @@ body {
 .chat-dot { animation: chat-dot 1.1s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) {
   .chat-fade, .chat-rise, .chat-dot { animation: none; }
+}
+
+/*
+ * The floating wordmark. Fixed to the top-left, lined up with the page's
+ * content column, and blended with "difference" so it inverts what passes
+ * beneath it. Over the page background it reads as cobalt.
+ */
+.site-logo {
+  position: fixed;
+  top: 1.5rem;
+  left: max(1.5rem, calc((100vw - 72rem) / 2 + 1.5rem));
+  z-index: 50;
+  color: var(--logo-blend);
+  mix-blend-mode: difference;
+  transition: opacity 200ms ease;
+}
+.site-logo:hover { opacity: 0.8; }
+.site-logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; mix-blend-mode: normal; }
+@media (min-width: 640px) {
+  .site-logo { top: 2rem; }
 }

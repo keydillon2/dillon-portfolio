@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import CaseRow from './components/CaseRow'
-import Logo from './components/Logo'
 import { getCaseStudies, type CaseStudy } from '@/sanity/lib/caseStudies'
 import { urlFor } from '@/sanity/lib/image'
 import HashRedirect from './components/HashRedirect'
@@ -20,14 +19,13 @@ export default async function Home() {
   const caseStudies = await getCaseStudies()
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 pt-20 pb-24 sm:pt-28">
+    <main className="mx-auto w-full max-w-6xl px-6 pt-32 pb-24 sm:pt-48">
       <HashRedirect slugs={caseStudies.map((cs) => cs.slug)} />
 
       <header className="max-w-3xl">
-        <h1>
-          <Logo />
-        </h1>
-        <div className="mt-8 max-w-[62ch] space-y-4 text-[1.125rem] leading-[1.6]">
+        {/* The pinned wordmark is the visual title; this keeps the page's heading for search and screen readers. */}
+        <h1 className="sr-only">Dillon Key, Brand Strategist</h1>
+        <div className="max-w-[62ch] space-y-4 text-[1.125rem] leading-[1.6]">
           <p>
             I&rsquo;m a Senior Strategist at Prosek Partners in New York. I work
             with brands that have complex products and multiple stakeholders.
